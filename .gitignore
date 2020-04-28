@@ -29,6 +29,7 @@ venv*/
 .project/
 .pydevproject/
 nbproject/
+.vscode
 
 
 # Ignore OS metadata files.

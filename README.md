@@ -12,10 +12,6 @@ Using Python 3.6+
 pip install driftage
 ```
 
-## How it works
-
-![dataflow](https://github.com/dmvieira/driftage/blob/master/doc/dataflow.png)
-
 ## Usage
 
 Check [Documentation](https://driftage.readthedocs.io/en/latest/) for more information.

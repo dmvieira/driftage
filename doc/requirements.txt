@@ -3,3 +3,4 @@
 ##     pip install --requirement=doc/requirements.txt
 ##
 Sphinx>=1.3
+sphinx-rtd-theme>=0.4.3
