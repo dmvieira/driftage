@@ -18,8 +18,8 @@ pip install driftage
 
 ## Usage
 
-Check [Documentation](https://readthedocs.org) for more information.
+Check [Documentation](https://driftage.readthedocs.io/en/latest/) for more information.
 
 ## Contribute
 
-For development and contributing, please follow [Contributing Guide](https://github.com/dmvieira/driftage/blob/master/CONTRIBUTING.md) and **ALWAYS** respect the [Code of Conduct](https://github.com/dmvieira/driftage/blob/master/CODE_OF_CONDUCT.md)
+For development and contributing, please follow [Contributing Guide](https://github.com/dmvieira/driftage/blob/master/CONTRIBUTING.md) and **ALWAYS** respect the [Code of Conduct](https://github.com/dmvieira/driftage/blob/master/CODE_OF_CONDUCT.md).
