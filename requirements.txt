@@ -1,0 +1,4 @@
+## Python requirements for using the driftage library. 
+##
+##   python -m pip install --requirement=requirements.txt
+##

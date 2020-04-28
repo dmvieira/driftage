@@ -1,0 +1,33 @@
+dist: xenial
+language: python
+python:
+  - "3.6"
+  - "3.7"
+
+# command to install dependencies
+install:
+  - make setup
+  - pip install python-coveralls  # for coveralls
+# command to run tests
+script:
+  - make all-tests
+
+before_deploy: sed -i "s/version = \".*\"/version = \"$TRAVIS_TAG\"/g" setup.py
+
+deploy:
+  provider: pypi
+  username: $PYPI_USER
+  password: $PYPI_PASSWORD
+  skip_existing: true
+  skip_cleanup: true
+  on:
+    branch: master
+    tags: true
+    condition: $TRAVIS_PYTHON_VERSION = "3.6"
+
+after_success: coveralls
+
+addons:
+  apt:
+    packages:
+    - rabbitmq-server
