@@ -1,6 +1,13 @@
 Welcome to driftage's documentation!
 =======================================
 
+.. image:: images/driftage_nobackground.png
+   :width: 400
+
+Diftage is a modular multi-agent framework to detect concept drifts from streaming data.
+
+----
+
 **Deployment & Documentation & Stats**
 
 .. image:: https://img.shields.io/pypi/v/driftage.svg?color=brightgreen
@@ -40,11 +47,6 @@ Welcome to driftage's documentation!
 .. image:: https://img.shields.io/github/license/dmvieira/driftage.svg
    :target: https://github.com/dmvieira/driftage/blob/master/LICENSE
    :alt: License
-
-
-----
-
-Diftage is a modular multi-agent platform to detect concept drifts from streaming data.
 
 
 ----

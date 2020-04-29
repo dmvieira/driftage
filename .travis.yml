@@ -10,6 +10,9 @@ install:
   - pip install python-coveralls  # for coveralls
 # command to run tests
 script:
+  - ejabberdctl register user1 localhost password
+  - ejabberdctl register user2 localhost password
+  - ejabberdctl register user3 localhost password
   - make all-tests
 
 before_deploy: sed -i "s/version = \".*\"/version = \"$TRAVIS_TAG\"/g" setup.py
@@ -30,4 +33,4 @@ after_success: coveralls
 addons:
   apt:
     packages:
-    - rabbitmq-server
+    - ejabberd

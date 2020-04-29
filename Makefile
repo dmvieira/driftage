@@ -14,7 +14,7 @@ test:
 integration:
 	@nosetests -w test/integration/
 
-all-tests: test integration lint check-sec
+all-tests: | test integration lint check-sec
 
 check-sec:
 	@echo "Running Bandit..."
@@ -22,3 +22,7 @@ check-sec:
 
 doc:
 	@sphinx-build -b html doc doc/_build/html
+
+ejabberd:
+	@docker run --name ejabberd --rm -d -p 5222:5222 -p 5443:5443 ejabberd/ecs
+	@docker exec -it ejabberd bin/ejabberdctl register admin localhost password

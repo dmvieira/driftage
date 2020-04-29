@@ -6,6 +6,7 @@ dist/
 *.egg-info/
 *.pyc
 *.pyo
+__pycache__
 
 
 # Ignore pyenv files.
