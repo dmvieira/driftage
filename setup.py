@@ -24,7 +24,7 @@ def main() -> int:
         url = "https://github.com/dmvieira/driftage",
         author = "Diogo Munaro Vieira",
         author_email = "diogo.mvieira@gmail.com",
-        packages = find_packages("driftage"),
+        packages = find_packages(),
         description = "Multi-agent Drift Detection Platform",
         long_description = long_description,
         long_description_content_type = "text/markdown",
