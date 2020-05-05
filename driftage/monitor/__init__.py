@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Optional
 from collections import deque
 from spade.agent import Agent
 from spade.template import Template
@@ -12,11 +12,13 @@ class Monitor(Agent):
             self,
             jid: str,
             password: str,
+            identifier: Optional[str] = None,
             cache_max_size: int = 10,
             verify_security: bool = False
     ):
 
         self._cache = deque([], cache_max_size)
+        self._identifier = identifier if identifier else jid
         self._contacts = {}
         self._sent_data = {}
         super(Monitor, self).__init__(jid, password, verify_security)
@@ -36,12 +38,13 @@ class Monitor(Agent):
     async def setup(self):
         self.add_behaviour(WaitSubscriptions())
 
-    def collect(self, data: Any):
+    def collect(self, data: dict):
         template = Template()
         self._cache.append({
             "data": data,
             "metadata": {
-                "timestamp": datetime.now().timestamp()
+                "timestamp": datetime.now().timestamp(),
+                "identifier": self._identifier
             }
         })
         for contact in self.available_contacts:

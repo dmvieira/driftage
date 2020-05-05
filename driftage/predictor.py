@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-from pandas import DataFrame
+from pandas import DataFrame, Series
 
 
 class Predictor(metaclass=ABCMeta):
@@ -14,5 +14,5 @@ class Predictor(metaclass=ABCMeta):
         raise NotImplementedError
 
     @abstractmethod
-    def predict(self, X: DataFrame) -> bool:
+    def predict(self, X: DataFrame) -> Series:
         raise NotImplementedError

@@ -7,7 +7,7 @@ dist/
 *.pyc
 *.pyo
 __pycache__
-
+.coverage
 
 # Ignore pyenv files.
 
