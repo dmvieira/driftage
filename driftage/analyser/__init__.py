@@ -1,9 +1,9 @@
 from spade.agent import Agent
 from typing import Iterable
 from driftage.analyser.behavior.receive_new_data import ReceiveNewData
-from driftage.analyser.behavior.learn_old_data import LearnOldData
+from driftage.analyser.behavior.train_predictor import TrainPredictor
 from driftage.predictor import Predictor
-from driftage.connection import Connection
+from driftage.db.connection import Connection
 
 
 class Analyser(Agent):
@@ -38,5 +38,5 @@ class Analyser(Agent):
         self.add_behaviour(ReceiveNewData())
         if self._predictor.retrain_period:
             self.add_behaviour(
-                LearnOldData(period=self.predictor.retrain_period))
+                TrainPredictor(period=self.predictor.retrain_period))
         self.presence.set_available()

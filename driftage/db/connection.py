@@ -1,5 +1,8 @@
 import pandas as pd
+from datetime import datetime
 from sqlalchemy.engine import Engine
+from sqlalchemy.sql import select
+from driftage.db.shema import table
 
 
 class Connection:
@@ -33,8 +36,17 @@ class Connection:
         if (len(self._bulk_df.index) >= self._bulk_size):
             self._insert()
 
-    def get(self, timestamp: float):
-        pass
-
-    def select(self, from_timestamp: float, to_timestamp: float):
-        pass
+    def select(
+            self,
+            from_datetime: datetime,
+            to_datetime: datetime) -> pd.DataFrame:
+        selectable = select([table]).where(
+            (table.c.driftage_jid == self._jid) &
+            (table.c.driftage_timestamp > from_datetime) &
+            (table.c.driftage_timestamp < to_datetime)
+        )
+        return pd.read_sql(
+            sql=selectable,
+            con=self._conn,
+            parse_dates=["driftage_timestamp"]
+        )
