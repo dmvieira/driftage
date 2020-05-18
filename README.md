@@ -8,7 +8,7 @@ Multi-agent Drift Detection Framework
 
 ## Install
 
-Using Python 3.6+
+Using Python 3.7+
 
 ```sh
 pip install driftage

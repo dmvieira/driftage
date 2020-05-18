@@ -2,6 +2,7 @@ import json
 import pandas as pd
 from datetime import datetime
 from spade.behaviour import OneShotBehaviour
+from driftage.db.schema import table
 
 
 class StoreNewData(OneShotBehaviour):
@@ -22,16 +23,22 @@ class StoreNewData(OneShotBehaviour):
             timestamp: float,
             identifier: str) -> pd.DataFrame:
         return pd.DataFrame(
-            [data, datetime.fromtimestamp(timestamp), identifier],
+            [
+                self.agent.name,
+                data,
+                datetime.fromtimestamp(timestamp),
+                identifier
+            ],
             columns=(
-                "driftage_data",
-                "driftage_timestamp",
-                "driftage_identifier")
+                table.c.driftage_jid.name,
+                table.c.driftage_data.name,
+                table.c.dirftage_datetime.name,
+                table.c.driftage_identifier.name)
         )
 
     async def _predict(self, df: pd.DataFrame) -> pd.DataFrame:
-        df["driftage_predicted"] = self.agent.predictor.predict(df)
+        df[table.c.driftage_predicted.name] = self.agent.predictor.predict(df)
         return df
 
     async def _store(self, df: pd.DataFrame):
-        self.agent.connection.lazy_insert(df)
+        await self.agent.connection.lazy_insert(df)

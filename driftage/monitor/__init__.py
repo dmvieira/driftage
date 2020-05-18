@@ -1,13 +1,10 @@
 from typing import Optional
-from collections import deque
-from spade.agent import Agent
-from spade.template import Template
-from driftage.monitor.behavior.wait_subscriptions import WaitSubscriptions
-from driftage.monitor.behavior.notify_analysers import NotifyAnalysers
+from driftage.base.agent.collector import Collector
+from driftage.base.behaviour.notify_contacts import NotifyContacts
 from datetime import datetime
 
 
-class Monitor(Agent):
+class Monitor(Collector):
     def __init__(
             self,
             jid: str,
@@ -16,30 +13,10 @@ class Monitor(Agent):
             cache_max_size: int = 10,
             verify_security: bool = False
     ):
-
-        self._cache = deque([], cache_max_size)
-        self._identifier = identifier if identifier else jid
-        self._contacts = {}
-        self._sent_data = {}
-        super(Monitor, self).__init__(jid, password, verify_security)
-
-    @property
-    def available_contacts(self):
-        return self._contacts
-
-    @property
-    def sent_data(self):
-        return self._sent_data
-
-    @property
-    def cache(self):
-        return self._cache.copy()
-
-    async def setup(self):
-        self.add_behaviour(WaitSubscriptions())
+        super().__init__(jid, password, cache_max_size, verify_security)
+        self._identifier = identifier if identifier else self.name
 
     def collect(self, data: dict):
-        template = Template()
         self._cache.append({
             "data": data,
             "metadata": {
@@ -47,8 +24,6 @@ class Monitor(Agent):
                 "identifier": self._identifier
             }
         })
-        for contact in self.available_contacts:
-            template.to = contact
-            self.add_behaviour(NotifyAnalysers(), template)
+        self.add_behaviour(NotifyContacts())
 
     __call__ = collect

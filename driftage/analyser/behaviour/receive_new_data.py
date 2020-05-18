@@ -1,6 +1,6 @@
 from spade.behaviour import CyclicBehaviour
 from spade.template import Template
-from driftage.analyser.behavior.store_new_data import StoreNewData
+from driftage.analyser.behaviour.store_new_data import StoreNewData
 
 
 class ReceiveNewData(CyclicBehaviour):

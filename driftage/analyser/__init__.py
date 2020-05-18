@@ -1,8 +1,8 @@
 from spade.agent import Agent
 from typing import Iterable
-from driftage.analyser.behavior.receive_new_data import ReceiveNewData
-from driftage.analyser.behavior.train_predictor import TrainPredictor
-from driftage.predictor import Predictor
+from driftage.analyser.behaviour.receive_new_data import ReceiveNewData
+from driftage.analyser.behaviour.train_predictor import TrainPredictor
+from driftage.analyser.predictor import AnalyserPredictor
 from driftage.db.connection import Connection
 
 
@@ -11,7 +11,7 @@ class Analyser(Agent):
             self,
             jid: str,
             password: str,
-            predictor: Predictor,
+            predictor: AnalyserPredictor,
             database_connection: Connection,
             monitors_jid: Iterable[str] = [],
             verify_security: bool = False
@@ -19,9 +19,8 @@ class Analyser(Agent):
 
         self._monitors = monitors_jid
         self._connection = database_connection
-        self._connection.jid = jid
         self._predictor = predictor
-        super(Analyser, self).__init__(jid, password, verify_security)
+        super().__init__(jid, password, verify_security)
 
     @property
     def connection(self):
