@@ -24,5 +24,8 @@ doc:
 	@sphinx-build -b html doc doc/_build/html
 
 ejabberd:
-	@docker run --name ejabberd --rm -d -p 5222:5222 -p 5443:5443 ejabberd/ecs
+	@docker build -t ejabberd-driftage . 
+	@docker run --name ejabberd --rm -d -p 5222:5222 -p 5443:5443 ejabberd-driftage
+
+ejabberd-user:
 	@docker exec -it ejabberd bin/ejabberdctl register admin localhost password
