@@ -3,15 +3,23 @@ from datetime import datetime
 from sqlalchemy.engine import Engine
 from sqlalchemy.sql import select
 from driftage.db.schema import table
+from aiobreaker import CircuitBreaker
 
 
 class Connection:
-    def __init__(self, db_engine: Engine, table: str, bulk_size: int):
+    def __init__(
+            self,
+            db_engine: Engine,
+            table: str,
+            bulk_size: int,
+            circuit_breaker: CircuitBreaker = CircuitBreaker()):
         self._jid = None
         self._conn = db_engine
         self._table = table
         self._bulk_size = bulk_size
         self._bulk_df = pd.DataFrame()
+        self.get = circuit_breaker(self.get)
+        self._insert = circuit_breaker(self._insert)
 
     async def _insert(self):
         self._bulk_df.to_sql(

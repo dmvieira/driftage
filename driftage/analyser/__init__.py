@@ -13,7 +13,7 @@ class Analyser(Agent):
             password: str,
             predictor: AnalyserPredictor,
             database_connection: Connection,
-            monitors_jid: Iterable[str] = [],
+            monitors_jid: Iterable[str],
             verify_security: bool = False
     ):
 
