@@ -1,7 +1,7 @@
 Analyser
 =========================
 
-AnalyserPredictor
+Analyser Predictor
 ----------------------------------
 
 .. automodule:: driftage.analyser.predictor
