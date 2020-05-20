@@ -7,6 +7,8 @@ from driftage.db.schema import table
 
 class StoreNewData(OneShotBehaviour):
     async def run(self):
+        """[summary]
+        """
         body = json.loads(self.template.body)
         for msg in body:
             data = msg["data"]
@@ -22,6 +24,17 @@ class StoreNewData(OneShotBehaviour):
             data: dict,
             timestamp: float,
             identifier: str) -> pd.DataFrame:
+        """[summary]
+
+        :param data: [description]
+        :type data: dict
+        :param timestamp: [description]
+        :type timestamp: float
+        :param identifier: [description]
+        :type identifier: str
+        :return: [description]
+        :rtype: pd.DataFrame
+        """
         return pd.DataFrame(
             [
                 self.agent.name,
@@ -37,8 +50,20 @@ class StoreNewData(OneShotBehaviour):
         )
 
     async def _predict(self, df: pd.DataFrame) -> pd.DataFrame:
+        """[summary]
+
+        :param df: [description]
+        :type df: pd.DataFrame
+        :return: [description]
+        :rtype: pd.DataFrame
+        """
         df[table.c.driftage_predicted.name] = self.agent.predictor.predict(df)
         return df
 
     async def _store(self, df: pd.DataFrame):
+        """[summary]
+
+        :param df: [description]
+        :type df: pd.DataFrame
+        """
         await self.agent.connection.lazy_insert(df)

@@ -54,25 +54,19 @@ Diftage is a modular multi-agent framework to detect concept drifts from streami
 
 .. toctree::
    :maxdepth: 2
-   :hidden:
    :caption: Getting Started
-
 
    install
    example
 
-
 .. toctree::
-   :maxdepth: 4
-   :hidden:
+   :maxdepth: 2
    :caption: Documentation
 
-   api
-
+   api   
 
 .. toctree::
    :maxdepth: 2
-   :hidden:
    :caption: Additional Information
 
    dataflow

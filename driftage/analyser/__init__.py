@@ -16,7 +16,21 @@ class Analyser(Agent):
             monitors_jid: Iterable[str],
             verify_security: bool = False
     ):
+        """[summary]
 
+        :param jid: [description]
+        :type jid: str
+        :param password: [description]
+        :type password: str
+        :param predictor: [description]
+        :type predictor: AnalyserPredictor
+        :param database_connection: [description]
+        :type database_connection: Connection
+        :param monitors_jid: [description]
+        :type monitors_jid: Iterable[str]
+        :param verify_security: [description], defaults to False
+        :type verify_security: bool, optional
+        """
         self._monitors = monitors_jid
         self._connection = database_connection
         self._predictor = predictor
@@ -24,13 +38,25 @@ class Analyser(Agent):
 
     @property
     def connection(self):
+        """[summary]
+
+        :return: [description]
+        :rtype: [type]
+        """
         return self._connection
 
     @property
     def predictor(self):
+        """[summary]
+
+        :return: [description]
+        :rtype: [type]
+        """
         return self._predictor
 
     async def setup(self):
+        """[summary]
+        """
         self.presence.approve_all = True
         for m in self._monitors:
             self.presence.subscribe(m)

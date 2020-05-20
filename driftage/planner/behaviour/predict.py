@@ -5,6 +5,8 @@ from driftage.base.behaviour.notify_contacts import NotifyContacts
 
 class Predict(PeriodicBehaviour):
     async def run(self):
+        """[summary]
+        """
         predictor = self.agent.predictor
         results = await predictor.predict()
         has_new_data = False

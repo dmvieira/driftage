@@ -6,6 +6,8 @@ from spade.message import Message
 class NotifyContacts(OneShotBehaviour):
 
     async def run(self):
+        """[summary]
+        """
         for contact in self.agent.available_contacts:
             if self.agent.sent_data[contact][-1] == id(self.agent.cache[-1]):
                 return
