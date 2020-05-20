@@ -1,8 +1,10 @@
-API Reference
-=============
+API
+================
 
-.. automodule:: driftage
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    :inherited-members:
+.. toctree::
+   :maxdepth: 4
+
+   driftage.monitor
+   driftage.analyser
+   driftage.planner
+   driftage.executor
