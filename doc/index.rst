@@ -70,4 +70,5 @@ Diftage is a modular multi-agent framework to detect concept drifts from streami
    :caption: Additional Information
 
    dataflow
+   sequence_diagram
    about

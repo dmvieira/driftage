@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from abc import abstractmethod
 from dataclasses import dataclass
 from driftage.base.predictor import Predictor
@@ -9,7 +9,8 @@ class PredictResult:
     """[summary]
     """
     identifier: str
-    predicted: bool
+    predicted: Union[bool, str, int, float]
+    should_send: bool
 
 
 class PlannerPredictor(Predictor):

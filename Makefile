@@ -21,6 +21,7 @@ check-sec:
 	@bandit -r .
 
 doc:
+	@rm -rf doc/_build/
 	@sphinx-build -b html doc doc/_build/html
 
 ejabberd:

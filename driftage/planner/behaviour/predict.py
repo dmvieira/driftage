@@ -11,10 +11,11 @@ class Predict(PeriodicBehaviour):
         results = await predictor.predict()
         has_new_data = False
         for result in results:
-            if result.predicted:
+            if result.should_send:
                 self.agent.cache.append({
                     "timestamp": datetime.now().timestamp(),
-                    "identifier": result.identifier
+                    "identifier": result.identifier,
+                    "prediction": result.prediction
                 })
                 has_new_data = True
         if has_new_data:
