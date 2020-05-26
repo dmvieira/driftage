@@ -1,7 +1,5 @@
 from asynctest import TestCase, Mock, call, patch
 from driftage.analyser import Analyser
-from driftage.analyser.behaviour.train_predictor import TrainPredictor
-from driftage.analyser.behaviour.receive_new_data import ReceiveNewData
 
 
 class TestAnalyser(TestCase):
@@ -16,7 +14,7 @@ class TestAnalyser(TestCase):
             self.connection, self.monitors
         )
         self.analyser.presence = Mock()
-    
+
     async def test_should_subscribe_to_monitors(self):
         await self.analyser.setup()
         self.assertEqual(
@@ -39,7 +37,7 @@ class TestAnalyser(TestCase):
     @patch("driftage.analyser.TrainPredictor")
     @patch("driftage.analyser.ReceiveNewData")
     async def test_should_call_retrain_only_if_set(
-        self, receive_data, train_predictor):
+            self, receive_data, train_predictor):
         self.predictor.retrain_period = None
         self.analyser.add_behaviour = Mock()
         await self.analyser.setup()
