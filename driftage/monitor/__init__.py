@@ -1,6 +1,8 @@
 from typing import Optional
 from driftage.base.agent.collector import Collector
 from driftage.base.behaviour.notify_contacts import NotifyContacts
+from driftage.monitor.behaviour.wait_monitor_subscriptions import (
+    WaitMonitorSubscriptions)
 from datetime import datetime
 
 
@@ -28,6 +30,11 @@ class Monitor(Collector):
         """
         super().__init__(jid, password, cache_max_size, verify_security)
         self._identifier = identifier if identifier else self.name
+
+    def setup(self):
+        """[summary]
+        """
+        self.add_behaviour(WaitMonitorSubscriptions())
 
     def collect(self, data: dict):
         """[summary]

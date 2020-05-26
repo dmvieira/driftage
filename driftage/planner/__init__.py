@@ -1,6 +1,8 @@
+from typing import Iterable
 from driftage.base.agent.collector import Collector
 from driftage.planner.behaviour.predict import Predict
 from driftage.planner.predictor import PlannerPredictor
+from driftage.monitor.behaviour.wait_subscriptions import WaitSubscriptions
 
 
 class Planner(Collector):
@@ -9,6 +11,7 @@ class Planner(Collector):
             jid: str,
             password: str,
             predictor: PlannerPredictor,
+            executors_jid: Iterable[str],
             cache_max_size: int = 10,
             verify_security: bool = False
     ):
@@ -20,6 +23,8 @@ class Planner(Collector):
         :type password: str
         :param predictor: [description]
         :type predictor: PlannerPredictor
+        :param executors_jid: [description]
+        :type executors_jid: Iterable[str]
         :param cache_max_size: [description], defaults to 10
         :type cache_max_size: int, optional
         :param verify_security: [description], defaults to False
@@ -27,6 +32,7 @@ class Planner(Collector):
         """
 
         self._predictor = predictor
+        self._executors = executors_jid
         super().__init__(jid, password, cache_max_size, verify_security)
 
     @property
@@ -41,6 +47,8 @@ class Planner(Collector):
     async def setup(self):
         """[summary]
         """
+        self.add_behaviour(WaitSubscriptions())
+        for e in self._executors:
+            self.presence.subscribe(e)
         self.add_behaviour(
             Predict(period=self.predictor.predict_period))
-        await super().setup()

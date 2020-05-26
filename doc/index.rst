@@ -4,7 +4,7 @@ Welcome to driftage's documentation!
 .. image:: images/driftage_nobackground.png
    :width: 400
 
-Diftage is a modular multi-agent framework to detect concept drifts from streaming data.
+Diftage is a modular multi-agent framework to detect concept drifts from batch or streaming data.
 
 ----
 

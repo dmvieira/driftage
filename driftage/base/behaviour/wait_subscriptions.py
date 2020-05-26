@@ -9,7 +9,6 @@ class WaitSubscriptions(OneShotBehaviour):
         :param jid: [description]
         :type jid: [type]
         """
-        self.presence.subscribe(jid)
         self.agent.sent_data[jid] = self.agent.cache
 
     def on_unsubscribed(self, jid):

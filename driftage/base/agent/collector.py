@@ -1,6 +1,5 @@
 from collections import deque
 from spade.agent import Agent
-from driftage.base.behaviour.wait_subscriptions import WaitSubscriptions
 
 
 class Collector(Agent):
@@ -53,8 +52,3 @@ class Collector(Agent):
         :rtype: [type]
         """
         return self._cache
-
-    async def setup(self):
-        """[summary]
-        """
-        self.add_behaviour(WaitSubscriptions())
