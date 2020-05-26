@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from abc import abstractmethod
 from pandas import DataFrame
 from driftage.base.predictor import Predictor
@@ -8,12 +8,12 @@ class AnalyserPredictor(Predictor):
 
     @property
     @abstractmethod
-    def retrain_period(self) -> int:
+    def retrain_period(self) -> Optional[int]:
         """[summary]
 
         :raises NotImplementedError: [description]
         :return: [description]
-        :rtype: int
+        :rtype: Optional[int]
         """
         raise NotImplementedError
 

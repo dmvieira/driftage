@@ -9,10 +9,10 @@ lint:
 	@flake8 driftage test
 
 test:
-	@nosetests --exclude="test/integration" --with-coverage --cover-erase --cover-package=driftage
+	@pytest --ignore="test/integration" --cov=driftage
 
 integration:
-	@nosetests -w test/integration/
+	@pytest --ignore="test/unit/"
 
 all-tests: | test integration lint check-sec
 
