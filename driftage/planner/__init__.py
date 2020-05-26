@@ -2,7 +2,7 @@ from typing import Iterable
 from driftage.base.agent.collector import Collector
 from driftage.planner.behaviour.predict import Predict
 from driftage.planner.predictor import PlannerPredictor
-from driftage.monitor.behaviour.wait_subscriptions import WaitSubscriptions
+from driftage.base.behaviour.wait_subscriptions import WaitSubscriptions
 
 
 class Planner(Collector):
