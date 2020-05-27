@@ -15,7 +15,12 @@ class TestAnalyser(TestCase):
         )
         self.analyser.presence = Mock()
 
-    async def test_should_subscribe_to_monitors(self):
+    def tearDown(self):
+        self.analyser.container.stop()
+
+    @patch("driftage.analyser.TrainPredictor")
+    @patch("driftage.analyser.ReceiveNewData")
+    async def test_should_subscribe_to_monitors(self, la, law):
         await self.analyser.setup()
         self.assertEqual(
             self.analyser.presence.subscribe.call_count, len(self.monitors))
