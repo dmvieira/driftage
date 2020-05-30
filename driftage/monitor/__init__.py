@@ -45,7 +45,7 @@ class Monitor(Collector):
         self._cache.append({
             "data": data,
             "metadata": {
-                "timestamp": datetime.now().timestamp(),
+                "timestamp": datetime.utcnow().timestamp(),
                 "identifier": self._identifier
             }
         })

@@ -20,7 +20,8 @@ class TestAnalyser(TestCase):
 
     @patch("driftage.analyser.TrainPredictor")
     @patch("driftage.analyser.ReceiveNewData")
-    async def test_should_subscribe_to_monitors(self, la, law):
+    async def test_should_subscribe_to_monitors(
+            self, receive_data, train_predictor):
         await self.analyser.setup()
         self.assertEqual(
             self.analyser.presence.subscribe.call_count, len(self.monitors))

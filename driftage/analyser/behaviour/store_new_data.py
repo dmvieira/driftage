@@ -36,17 +36,13 @@ class StoreNewData(OneShotBehaviour):
         :rtype: pd.DataFrame
         """
         return pd.DataFrame(
-            [
-                self.agent.name,
-                data,
-                datetime.fromtimestamp(timestamp),
-                identifier
-            ],
-            columns=(
-                table.c.driftage_jid.name,
-                table.c.driftage_data.name,
-                table.c.dirftage_datetime.name,
-                table.c.driftage_identifier.name)
+            {
+                table.c.driftage_jid.name: [self.agent.name],
+                table.c.driftage_data.name: [data],
+                table.c.driftage_datetime.name: [
+                    datetime.utcfromtimestamp(timestamp)],
+                table.c.driftage_identifier.name: [identifier]
+            }
         )
 
     async def _predict(self, df: pd.DataFrame) -> pd.DataFrame:

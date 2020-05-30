@@ -17,7 +17,10 @@ class WaitSubscriptions(OneShotBehaviour):
         :param jid: [description]
         :type jid: [type]
         """
-        del self.agent.sent_data[jid]
+        try:
+            del self.agent.sent_data[jid]
+        except KeyError:
+            pass
 
     def on_available(self, jid, stanza):
         """[summary]
@@ -37,7 +40,10 @@ class WaitSubscriptions(OneShotBehaviour):
         :param stanza: [description]
         :type stanza: [type]
         """
-        del self.agent.available_contacts[jid]
+        try:
+            del self.agent.available_contacts[jid]
+        except KeyError:
+            pass
 
     async def run(self):
         """[summary]

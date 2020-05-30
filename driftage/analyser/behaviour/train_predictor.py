@@ -5,5 +5,4 @@ class TrainPredictor(PeriodicBehaviour):
     async def run(self):
         """[summary]
         """
-        predictor = self.agent.predictor
-        predictor.train(self.agent.connection)
+        self.agent.predictor.fit()

@@ -67,11 +67,11 @@ class Connection:
         :rtype: pd.DataFrame
         """
         selectable = select([table]).where(
-            (table.c.dirftage_datetime > from_datetime) &
-            (table.c.dirftage_datetime < to_datetime)
+            (table.c.driftage_datetime > from_datetime) &
+            (table.c.driftage_datetime < to_datetime)
         )
         return pd.read_sql(
             sql=selectable,
             con=self._conn,
-            parse_dates=[table.c.dirftage_datetime.name]
+            parse_dates=[table.c.driftage_datetime.name]
         )

@@ -14,7 +14,7 @@ test:
 integration:
 	@pytest --ignore="test/unit/"
 
-all-tests: | test integration lint check-sec
+all-tests: | test lint check-sec
 
 check-sec:
 	@echo "Running Bandit..."

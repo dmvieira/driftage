@@ -13,7 +13,7 @@ class Predict(PeriodicBehaviour):
         for result in results:
             if result.should_send:
                 self.agent.cache.append({
-                    "timestamp": datetime.now().timestamp(),
+                    "timestamp": datetime.utcnow().timestamp(),
                     "identifier": result.identifier,
                     "prediction": result.prediction
                 })
