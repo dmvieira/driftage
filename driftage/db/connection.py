@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import datetime
 from sqlalchemy.engine import Engine
 from sqlalchemy.sql import select
+from sqlalchemy.exc import OperationalError
 from driftage.db.schema import table
 from aiobreaker import CircuitBreaker
 
@@ -10,15 +11,12 @@ class Connection:
     def __init__(
             self,
             db_engine: Engine,
-            table: str,
             bulk_size: int,
             circuit_breaker: CircuitBreaker = CircuitBreaker()):
         """[summary]
 
         :param db_engine: [description]
         :type db_engine: Engine
-        :param table: [description]
-        :type table: str
         :param bulk_size: [description]
         :type bulk_size: int
         :param circuit_breaker: [description], defaults to CircuitBreaker()
@@ -26,7 +24,6 @@ class Connection:
         """
         self._jid = None
         self._conn = db_engine
-        self._table = table
         self._bulk_size = bulk_size
         self._bulk_df = pd.DataFrame()
         self.get = circuit_breaker(self.get)
@@ -36,7 +33,7 @@ class Connection:
         """[summary]
         """
         self._bulk_df.to_sql(
-            name=self._table,
+            name=table.name,
             con=self._conn,
             if_exists='append',
             index=False
@@ -70,8 +67,11 @@ class Connection:
             (table.c.driftage_datetime > from_datetime) &
             (table.c.driftage_datetime < to_datetime)
         )
-        return pd.read_sql(
-            sql=selectable,
-            con=self._conn,
-            parse_dates=[table.c.driftage_datetime.name]
-        )
+        try:
+            return pd.read_sql(
+                sql=selectable,
+                con=self._conn,
+                parse_dates=[table.c.driftage_datetime.name]
+            )
+        except OperationalError:
+            return pd.DataFrame()

@@ -30,3 +30,9 @@ ejabberd:
 
 ejabberd-user:
 	@docker exec -it ejabberd bin/ejabberdctl register admin localhost password
+
+ejabberd-test-user:
+	@docker exec -it ejabberd bin/ejabberdctl register monitor localhost passw0rd
+	@docker exec -it ejabberd bin/ejabberdctl register analyser localhost passw0rd
+	@docker exec -it ejabberd bin/ejabberdctl register planner localhost passw0rd
+	@docker exec -it ejabberd bin/ejabberdctl register executor localhost passw0rd

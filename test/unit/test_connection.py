@@ -10,7 +10,6 @@ class TestConnection(TestCase):
         self.engine = Mock()
         self.connection = Connection(
             self.engine,
-            "my_table",
             10
         )
 

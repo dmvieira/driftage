@@ -10,9 +10,10 @@ install:
   - pip install python-coveralls  # for coveralls
 # command to run tests
 script:
-  - sudo ejabberdctl register user1 localhost password
-  - sudo ejabberdctl register user2 localhost password
-  - sudo ejabberdctl register user3 localhost password
+  - sudo ejabberdctl register monitor localhost passw0rd
+  - sudo ejabberdctl register analyser localhost passw0rd
+  - sudo ejabberdctl register planner localhost passw0rd
+  - sudo ejabberdctl register executor localhost passw0rd
   - make all-tests
 
 before_deploy: sed -i "s/version = \".*\"/version = \"$TRAVIS_TAG\"/g" setup.py
