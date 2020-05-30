@@ -24,4 +24,4 @@ class NotifyContacts(OneShotBehaviour):
                 body=json.dumps(to_send)
             )
             await self.send(msg)
-            self.agent.sent_data[contact].expand(to_send_id)
+            self.agent.sent_data[contact].extend(to_send_id)

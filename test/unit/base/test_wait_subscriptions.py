@@ -3,7 +3,7 @@ from driftage.base.behaviour.wait_subscriptions import WaitSubscriptions
 
 
 class TestWaitSubscriptions(TestCase):
-    
+
     def setUp(self):
         self.agent = Mock()
         self.agent.sent_data = dict()

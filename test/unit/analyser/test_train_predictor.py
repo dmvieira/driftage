@@ -2,7 +2,7 @@ from asynctest import TestCase, Mock
 from driftage.analyser.behaviour.train_predictor import TrainPredictor
 
 
-class TestReceiveNewData(TestCase):    
+class TestReceiveNewData(TestCase):
     def setUp(self):
         self.agent = Mock()
         self.behaviour = TrainPredictor(period=1)

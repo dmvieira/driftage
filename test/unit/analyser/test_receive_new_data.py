@@ -1,13 +1,14 @@
 from asynctest import TestCase, Mock, CoroutineMock, patch
 from driftage.analyser.behaviour.receive_new_data import ReceiveNewData
 
+
 class TestReceiveNewData(TestCase):
     def setUp(self):
         self.agent = Mock()
         self.behaviour = ReceiveNewData()
         self.behaviour.receive = CoroutineMock()
         self.behaviour.set_agent(self.agent)
-    
+
     @patch("driftage.analyser.behaviour.receive_new_data.StoreNewData")
     @patch("driftage.analyser.behaviour.receive_new_data.Template")
     async def test_should_store_data_on_message(self, template, callback):

@@ -1,6 +1,6 @@
 import json
 from datetime import datetime
-from asynctest import TestCase, Mock, CoroutineMock, patch
+from asynctest import TestCase, Mock, CoroutineMock
 from spade.template import Template
 from driftage.analyser.behaviour.store_new_data import StoreNewData
 from driftage.db.schema import table
@@ -8,7 +8,7 @@ from driftage.db.schema import table
 
 class TestReceiveNewData(TestCase):
     maxDiff = None
-    
+
     def setUp(self):
         self.agent = Mock()
         self.agent.name = "my agent"

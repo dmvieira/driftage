@@ -31,7 +31,7 @@ class Monitor(Collector):
         super().__init__(jid, password, cache_max_size, verify_security)
         self._identifier = identifier if identifier else self.name
 
-    def setup(self):
+    async def setup(self):
         """[summary]
         """
         self.add_behaviour(WaitMonitorSubscriptions())
