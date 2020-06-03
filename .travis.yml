@@ -1,8 +1,8 @@
 dist: xenial
 language: python
 python:
-  - "3.6"
   - "3.7"
+  - "3.8"
 
 # command to install dependencies
 install:
@@ -27,7 +27,7 @@ deploy:
   on:
     branch: master
     tags: true
-    condition: $TRAVIS_PYTHON_VERSION = "3.6"
+    condition: $TRAVIS_PYTHON_VERSION = "3.7"
 
 after_success: coveralls
 
