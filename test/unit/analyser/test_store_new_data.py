@@ -8,7 +8,7 @@ from driftage.analyser.behaviour.store_new_data import StoreNewData
 from driftage.db.schema import table
 
 
-class TestReceiveNewData(TestCase):
+class TestStoreNewData(TestCase):
     maxDiff = None
 
     @freeze_time("1989-08-12", tz_offset=0)

@@ -15,7 +15,7 @@ class Predict(PeriodicBehaviour):
                 self.agent.cache.append({
                     "timestamp": datetime.utcnow().timestamp(),
                     "identifier": result.identifier,
-                    "prediction": result.prediction
+                    "predicted": result.predicted
                 })
                 has_new_data = True
         if has_new_data:
