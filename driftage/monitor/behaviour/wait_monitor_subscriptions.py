@@ -15,5 +15,5 @@ class WaitMonitorSubscriptions(WaitSubscriptions):
     async def run(self):
         """[summary]
         """
-        await super().run()
         self.presence.on_subscribe = self.on_subscribe
+        await super().run()

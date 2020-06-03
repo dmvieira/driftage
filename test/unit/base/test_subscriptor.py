@@ -1,11 +1,11 @@
 from asynctest import TestCase
-from driftage.base.agent.collector import Collector
+from driftage.base.agent.subscriptor import Subscriptor
 
 
-class TestCollector(TestCase):
+class TestSubscriptor(TestCase):
 
     def setUp(self):
-        self.collector = Collector("user_test", "pass_test")
+        self.collector = Subscriptor("user_test", "pass_test")
 
     def tearDown(self):
         self.collector.container.stop()

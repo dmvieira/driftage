@@ -1,3 +1,4 @@
+import json
 from asynctest import TestCase, Mock, patch
 from freezegun import freeze_time
 from driftage.monitor import Monitor
@@ -37,40 +38,43 @@ class TestMonitor(TestCase):
         )
 
     @freeze_time("1989-08-12")
-    @patch("driftage.monitor.NotifyContacts")
-    def test_should_notify_contacts_on_new_data(self, behaviour_mock):
+    @patch("driftage.monitor.FastNotifyContacts")
+    @patch("driftage.monitor.Template")
+    def test_should_notify_contacts_on_new_data(
+            self, template_mock, behaviour_mock):
         self.monitor.add_behaviour = Mock()
         self.monitor.collect({"my data": 1})
         self.monitor.add_behaviour.assert_called_once_with(
-            behaviour_mock()
+            behaviour_mock(),
+            template=template_mock.return_value
         )
-        self.assertDictEqual(
-            {
+        template_mock.assert_called_once_with(
+            body=json.dumps({
                 "data": {"my data": 1},
                 "metadata": {
                     "timestamp": 618883200.0,
                     "identifier": "identif"
                 }
-            },
-            self.monitor.cache[0]
+            })
         )
 
     @freeze_time("1989-08-12")
-    @patch("driftage.monitor.NotifyContacts")
+    @patch("driftage.monitor.FastNotifyContacts")
+    @patch("driftage.monitor.Template")
     def test_should_notify_contacts_on_new_data_with_call(
-            self, behaviour_mock):
+            self, template_mock, behaviour_mock):
         self.monitor.add_behaviour = Mock()
         self.monitor({"my data": 1})
         self.monitor.add_behaviour.assert_called_once_with(
-            behaviour_mock()
+            behaviour_mock(),
+            template=template_mock.return_value
         )
-        self.assertDictEqual(
-            {
+        template_mock.assert_called_once_with(
+            body=json.dumps({
                 "data": {"my data": 1},
                 "metadata": {
                     "timestamp": 618883200.0,
                     "identifier": "identif"
                 }
-            },
-            self.monitor.cache[0]
+            })
         )

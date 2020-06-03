@@ -58,10 +58,10 @@ class Analyser(Agent):
         """[summary]
         """
         self.presence.approve_all = True
+        self.presence.set_available()
         for m in self._monitors:
             self.presence.subscribe(m)
         self.add_behaviour(ReceiveNewData())
         if self._predictor.retrain_period:
             self.add_behaviour(
                 TrainPredictor(period=self.predictor.retrain_period))
-        self.presence.set_available()

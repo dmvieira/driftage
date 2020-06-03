@@ -9,15 +9,14 @@ class StoreNewData(OneShotBehaviour):
     async def run(self):
         """[summary]
         """
-        body = json.loads(self.template.body)
-        for msg in body:
-            data = msg["data"]
-            metadata = msg["metadata"]
-            timestamp = metadata["timestamp"]
-            identifier = metadata["identifier"]
-            df = await self._parse(data, timestamp, identifier)
-            predicted_df = await self._predict(df)
-            await self._store(predicted_df)
+        msg = json.loads(self.template.body)
+        data = msg["data"]
+        metadata = msg["metadata"]
+        timestamp = metadata["timestamp"]
+        identifier = metadata["identifier"]
+        df = await self._parse(data, timestamp, identifier)
+        predicted_df = await self._predict(df)
+        await self._store(predicted_df)
 
     async def _parse(
             self,
@@ -38,9 +37,9 @@ class StoreNewData(OneShotBehaviour):
         return pd.DataFrame(
             {
                 table.c.driftage_jid.name: [self.agent.name],
-                table.c.driftage_data.name: [data],
+                table.c.driftage_data.name: [json.dumps(data)],
                 table.c.driftage_datetime.name: [
-                    datetime.utcfromtimestamp(timestamp)],
+                    datetime.fromtimestamp(timestamp)],
                 table.c.driftage_identifier.name: [identifier]
             }
         )

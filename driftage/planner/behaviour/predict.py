@@ -1,6 +1,6 @@
 from datetime import datetime
 from spade.behaviour import PeriodicBehaviour
-from driftage.base.behaviour.notify_contacts import NotifyContacts
+from driftage.planner.behaviour.notify_contacts import NotifyContacts
 
 
 class Predict(PeriodicBehaviour):

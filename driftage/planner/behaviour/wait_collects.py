@@ -1,7 +1,8 @@
-from spade.behaviour import OneShotBehaviour
+from collections import deque
+from driftage.base.behaviour.wait_subscriptions import WaitSubscriptions
 
 
-class WaitSubscriptions(OneShotBehaviour):
+class WaitCollects(WaitSubscriptions):
 
     def on_available(self, jid, stanza):
         """[summary]
@@ -11,7 +12,11 @@ class WaitSubscriptions(OneShotBehaviour):
         :param stanza: [description]
         :type stanza: [type]
         """
-        self.agent.available_contacts[jid] = stanza
+        self.agent.sent_data[jid] = deque(
+            [id(cache) for cache in self.agent.cache],
+            self.agent.cache.maxlen
+        )
+        super().on_available(jid, stanza)
 
     def on_unavailable(self, jid, stanza):
         """[summary]
@@ -22,13 +27,7 @@ class WaitSubscriptions(OneShotBehaviour):
         :type stanza: [type]
         """
         try:
-            del self.agent.available_contacts[jid]
+            del self.agent.sent_data[jid]
         except KeyError:
             pass
-
-    async def run(self):
-        """[summary]
-        """
-        self.presence.on_available = self.on_available
-        self.presence.on_unavailable = self.on_unavailable
-        self.presence.set_available()
+        super().on_unavailable(jid, stanza)

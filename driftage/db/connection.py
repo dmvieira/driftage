@@ -36,7 +36,8 @@ class Connection:
             name=table.name,
             con=self._conn,
             if_exists='append',
-            index=False
+            index=False,
+            method="multi"
         )
         self._bulk_df = pd.DataFrame()
 
@@ -68,10 +69,11 @@ class Connection:
             (table.c.driftage_datetime < to_datetime)
         )
         try:
-            return pd.read_sql(
-                sql=selectable,
+            return pd.read_sql_query(
+                sql=str(selectable.compile(self._conn)),
                 con=self._conn,
-                parse_dates=[table.c.driftage_datetime.name]
+                parse_dates=[table.c.driftage_datetime.name],
+                params=[from_datetime, to_datetime]
             )
         except OperationalError:
             return pd.DataFrame()

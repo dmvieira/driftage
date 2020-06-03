@@ -9,13 +9,15 @@ class NotifyContacts(OneShotBehaviour):
         """[summary]
         """
         for contact in self.agent.available_contacts:
-            if self.agent.sent_data[contact][-1] == id(self.agent.cache[-1]):
-                return
+            contact_data = self.agent.sent_data[contact]
+            if ((len(contact_data) > 0) and
+                    (contact_data[-1] == id(self.agent.cache[-1]))):
+                continue
 
             to_send = []
             to_send_id = []
             for item in self.agent.cache:
-                if id(item) in self.agent.sent_data[contact]:
+                if id(item) in contact_data:
                     continue
                 to_send.append(item)
                 to_send_id.append(id(item))

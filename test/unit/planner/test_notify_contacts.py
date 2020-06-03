@@ -1,5 +1,5 @@
 from asynctest import TestCase, Mock, CoroutineMock, patch
-from driftage.base.behaviour.notify_contacts import NotifyContacts
+from driftage.planner.behaviour.notify_contacts import NotifyContacts
 
 
 class TestNotifyContacts(TestCase):
@@ -17,7 +17,7 @@ class TestNotifyContacts(TestCase):
         await self.behaviour.run()
         self.behaviour.send.assert_not_awaited()
 
-    @patch("driftage.base.behaviour.notify_contacts.Message")
+    @patch("driftage.planner.behaviour.notify_contacts.Message")
     async def test_should_send_new_data(self, message_mock):
         self.agent.available_contacts = {"my agent": "stanza"}
         self.agent.cache = ["data 1", "data 2", "data 3"]

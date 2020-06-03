@@ -1,4 +1,5 @@
 import pandas as pd
+import asyncio
 from datetime import datetime
 from asynctest import TestCase, Mock, CoroutineMock, patch
 from driftage.db.connection import Connection
@@ -24,12 +25,14 @@ class TestConnection(TestCase):
     @patch("driftage.db.connection.pd")
     @patch("driftage.db.connection.select")
     async def test_should_get_with_right_query(self, select_mock, pd_mock):
-        from_dt = datetime.now()
-        to_dt = datetime.now()
+        from_dt = datetime.utcnow()
+        asyncio.sleep(1)
+        to_dt = datetime.utcnow()
         await self.connection.get(from_dt, to_dt)
         select_mock.assert_called_once_with([table])
-        pd_mock.read_sql.assert_called_with(
+        pd_mock.read_sql_query.assert_called_with(
             con=self.engine,
             parse_dates=[table.c.driftage_datetime.name],
-            sql=select_mock().where()
+            sql=str(select_mock().where().compile()),
+            params=[from_dt, to_dt]
         )

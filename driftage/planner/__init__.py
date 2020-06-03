@@ -1,11 +1,12 @@
+from collections import deque
 from typing import Iterable
-from driftage.base.agent.collector import Collector
+from spade.agent import Agent
 from driftage.planner.behaviour.predict import Predict
+from driftage.planner.behaviour.wait_collects import WaitCollects
 from driftage.planner.predictor import PlannerPredictor
-from driftage.base.behaviour.wait_subscriptions import WaitSubscriptions
 
 
-class Planner(Collector):
+class Planner(Agent):
     def __init__(
             self,
             jid: str,
@@ -33,7 +34,27 @@ class Planner(Collector):
 
         self._predictor = predictor
         self._executors = executors_jid
-        super().__init__(jid, password, cache_max_size, verify_security)
+        self._cache = deque([], cache_max_size)
+        self._sent_data = {}
+        super().__init__(jid, password, verify_security)
+
+    @property
+    def sent_data(self):
+        """[summary]
+
+        :return: [description]
+        :rtype: [type]
+        """
+        return self._sent_data
+
+    @property
+    def cache(self):
+        """[summary]
+
+        :return: [description]
+        :rtype: [type]
+        """
+        return self._cache
 
     @property
     def predictor(self):
@@ -47,7 +68,7 @@ class Planner(Collector):
     async def setup(self):
         """[summary]
         """
-        self.add_behaviour(WaitSubscriptions())
+        self.add_behaviour(WaitCollects())
         for e in self._executors:
             self.presence.subscribe(e)
         self.add_behaviour(
