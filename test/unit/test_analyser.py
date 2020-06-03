@@ -38,7 +38,7 @@ class TestAnalyser(TestCase):
         self.analyser.add_behaviour.assert_has_calls([
             call(receive_data()),
             call(train_predictor(period=3))
-        ])
+        ], any_order=True)
 
     @patch("driftage.analyser.TrainPredictor")
     @patch("driftage.analyser.ReceiveNewData")
