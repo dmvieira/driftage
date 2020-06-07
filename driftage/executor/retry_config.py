@@ -1,5 +1,5 @@
 from aiomisc import asyncbackoff
-from typing import Union, Tuple, Optional
+from typing import Union, Tuple, Optional, Callable
 
 
 class RetryConfig:
@@ -31,10 +31,11 @@ class RetryConfig:
             exceptions=retry_exceptions
         )
 
-    def __call__(self):
+    def __call__(self, fn: Callable):
         """[summary]
-
+        :type fn: Callable, optional
+        :param fn: [description], function to decorate
         :return: [description]
         :rtype: [type]
         """
-        return self._decorator
+        return self._decorator(fn)

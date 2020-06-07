@@ -12,7 +12,7 @@ test:
 	@pytest --ignore="test/integration" --cov=driftage
 
 integration:
-	@pytest --ignore="test/unit/"
+	@pytest -n0 -m "serial" --ignore="test/unit/"
 
 all-tests: | test integration lint check-sec
 

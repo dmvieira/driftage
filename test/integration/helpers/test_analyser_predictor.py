@@ -1,7 +1,7 @@
-from driftage.analyser.predictor import Predictor
+from driftage.analyser.predictor import AnalyserPredictor
 
 
-class AnalyserPredictor(Predictor):
+class TestAnalyserPredictor(AnalyserPredictor):
 
     fitted = False
 

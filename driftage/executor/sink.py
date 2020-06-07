@@ -1,7 +1,7 @@
 from typing import Union
 from abc import abstractmethod
 from aiobreaker import CircuitBreaker
-from cachetools import TTLCache
+from cachetools import TTLCache, cached
 from driftage.executor.retry_config import RetryConfig
 
 
@@ -21,8 +21,8 @@ class Sink:
         :param retry_config: [description], defaults to RetryConfig()
         :type retry_config: RetryConfig, optional
         """
-        self.is_available = TTLCache(
-            1, is_available_cache_ttl)(self.is_available)
+        cache = TTLCache(1, is_available_cache_ttl)
+        self.is_available = cached(cache)(self.is_available)
         self.drain = circuit_breaker(retry_config(self.drain))
 
     @abstractmethod
