@@ -1,9 +1,13 @@
 from datetime import datetime
 from spade.behaviour import PeriodicBehaviour
 from driftage.planner.behaviour.notify_contacts import NotifyContacts
+from driftage.base.conf import getLogger
 
 
 class Predict(PeriodicBehaviour):
+
+    _logger = getLogger("predict")
+
     async def run(self):
         """[summary]
         """
@@ -20,3 +24,4 @@ class Predict(PeriodicBehaviour):
                 has_new_data = True
         if has_new_data:
             self.agent.add_behaviour(NotifyContacts())
+            self._logger.debug("Notified new predictions")

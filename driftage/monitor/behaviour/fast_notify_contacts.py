@@ -1,8 +1,11 @@
 from spade.behaviour import OneShotBehaviour
 from spade.message import Message
+from driftage.base.conf import getLogger
 
 
 class FastNotifyContacts(OneShotBehaviour):
+
+    _logger = getLogger("fast_notify_contacts")
 
     async def run(self):
         """[summary]
@@ -13,3 +16,4 @@ class FastNotifyContacts(OneShotBehaviour):
                 body=self.template.body
             )
             await self.send(msg)
+        self._logger.debug(f"Sent {self.template.body} to all contacts")

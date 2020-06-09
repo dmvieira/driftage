@@ -1,8 +1,7 @@
 import asyncio
-# import os
-import pytest
-# from datetime import datetime
-from asynctest import TestCase
+import os
+from datetime import datetime
+from asynctest import TestCase, patch
 from sqlalchemy import create_engine
 from aiobreaker import CircuitBreaker
 
@@ -12,24 +11,24 @@ from driftage.planner import Planner
 from driftage.executor import Executor
 from driftage.db.connection import Connection
 
-from test.integration.helpers.test_analyser_predictor import (
-    TestAnalyserPredictor)
-from test.integration.helpers.test_planner_predictor import (
-    TestPlannerPredictor)
-from test.integration.helpers.test_sink import TestSink
+from test.integration.helpers.helper_analyser_predictor import (
+    HelperAnalyserPredictor)
+from test.integration.helpers.helper_planner_predictor import (
+    HelperPlannerPredictor)
+from test.integration.helpers.helper_sink import HelperSink
 
 
-@pytest.mark.serial
 class TestMAPEIntegration(TestCase):
 
     async def setUp(self):
         self.monitor = Monitor("monitor@localhost", "passw0rd", "data0")
         self.engine = create_engine("sqlite:///database.sql")
         self.breaker = CircuitBreaker()
+        self.cache_to_save = 10
         self.connection = Connection(
-            self.engine, 10, self.breaker)
-        self.analyser_predictor = TestAnalyserPredictor(self.connection)
-        self.sink = TestSink(self.breaker)
+            self.engine, self.cache_to_save, self.breaker)
+        self.analyser_predictor = HelperAnalyserPredictor(self.connection)
+        self.sink = HelperSink(self.breaker)
         self.analyser = Analyser(
             "analyser@localhost",
             "passw0rd",
@@ -38,18 +37,18 @@ class TestMAPEIntegration(TestCase):
             ["monitor@localhost"]
         )
         self.executor = Executor("executor@localhost", "passw0rd", self.sink)
-        self.planner_predictor = TestPlannerPredictor(self.connection)
+        self.planner_predictor = HelperPlannerPredictor(self.connection)
         self.planner = Planner(
-            "planner.localhost",
+            "planner@localhost",
             "passw0rd",
             self.planner_predictor,
             ["executor@localhost"]
         )
         self.monitor.start()
-        self.executor.start()
+        self.planner.start()
         await asyncio.sleep(2)
         self.analyser.start()
-        self.planner.start()
+        self.executor.start()
         await asyncio.sleep(1)
 
     def tearDown(self):
@@ -58,16 +57,19 @@ class TestMAPEIntegration(TestCase):
         self.planner.stop()
         self.executor.stop()
         self.breaker.close()
-        # os.unlink("database.sql")
+        os.unlink("database.sql")
 
-    async def test_should_execute_monitored_data(self):
-        pass
-        # dt_from = datetime.utcnow()
-
-        # with self.assertLogs(self.sink.logger, "INFO") as cm:
-        # for i in range(10):
-        #     self.monitor({"my data": i})
-        # dt_to = datetime.utcnow()
-        # await asyncio.sleep(1)
-        # df = await self.connection.get(dt_from, dt_to)
-        # import pdb; pdb.set_trace()
+    @patch("driftage.planner.behaviour.predict.datetime")
+    async def test_should_execute_monitored_data(self, mock_dt):
+        now = datetime.utcnow()
+        mock_dt.utcnow.return_value = now
+        for i in range(self.cache_to_save):
+            self.monitor({"my data": i})
+        await asyncio.sleep(1)
+        self.sink.external.assert_called_once_with(
+            {
+                'timestamp': now.timestamp(),
+                'identifier': 'data0',
+                'predicted': True
+            }
+        )

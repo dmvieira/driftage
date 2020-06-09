@@ -1,4 +1,4 @@
-.PHONY: setup test integration lint check-sec all-tests doc
+.PHONY: setup test integration coverage lint check-sec all-tests doc
 
 setup:
 	@pip install -e .
@@ -9,12 +9,15 @@ lint:
 	@flake8 driftage test
 
 test:
-	@pytest --ignore="test/integration" --cov=driftage
+	@pytest --ignore="test/integration"
 
 integration:
-	@pytest -n0 -m "serial" --ignore="test/unit/"
+	@pytest --ignore="test/unit/"
 
-all-tests: | test integration lint check-sec
+coverage:
+	@pytest --cov=driftage
+
+all-tests: | coverage lint check-sec
 
 check-sec:
 	@echo "Running Bandit..."

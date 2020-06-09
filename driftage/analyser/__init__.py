@@ -4,6 +4,7 @@ from driftage.analyser.behaviour.receive_new_data import ReceiveNewData
 from driftage.analyser.behaviour.train_predictor import TrainPredictor
 from driftage.analyser.predictor import AnalyserPredictor
 from driftage.db.connection import Connection
+from driftage.base.conf import getLogger
 
 
 class Analyser(Agent):
@@ -34,6 +35,7 @@ class Analyser(Agent):
         self._monitors = monitors_jid
         self._connection = database_connection
         self._predictor = predictor
+        self._logger = getLogger("analyser")
         super().__init__(jid, password, verify_security)
 
     @property
@@ -65,3 +67,4 @@ class Analyser(Agent):
         if self._predictor.retrain_period:
             self.add_behaviour(
                 TrainPredictor(period=self.predictor.retrain_period))
+        self._logger.info("Analyser started")

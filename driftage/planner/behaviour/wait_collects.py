@@ -1,16 +1,17 @@
 from collections import deque
+from aioxmpp import Presence
 from driftage.base.behaviour.wait_subscriptions import WaitSubscriptions
 
 
 class WaitCollects(WaitSubscriptions):
 
-    def on_available(self, jid, stanza):
+    def on_available(self, jid: str, stanza: Presence):
         """[summary]
 
         :param jid: [description]
-        :type jid: [type]
+        :type jid: [str]
         :param stanza: [description]
-        :type stanza: [type]
+        :type stanza: [Presence]
         """
         self.agent.sent_data[jid] = deque(
             [id(cache) for cache in self.agent.cache],
@@ -18,13 +19,13 @@ class WaitCollects(WaitSubscriptions):
         )
         super().on_available(jid, stanza)
 
-    def on_unavailable(self, jid, stanza):
+    def on_unavailable(self, jid: str, stanza: Presence):
         """[summary]
 
         :param jid: [description]
-        :type jid: [type]
+        :type jid: [str]
         :param stanza: [description]
-        :type stanza: [type]
+        :type stanza: [Presence]
         """
         try:
             del self.agent.sent_data[jid]

@@ -3,9 +3,13 @@ import pandas as pd
 from datetime import datetime
 from spade.behaviour import OneShotBehaviour
 from driftage.db.schema import table
+from driftage.base.conf import getLogger
 
 
 class StoreNewData(OneShotBehaviour):
+
+    _logger = getLogger("store_new_data")
+
     async def run(self):
         """[summary]
         """
@@ -17,6 +21,7 @@ class StoreNewData(OneShotBehaviour):
         df = await self._parse(data, timestamp, identifier)
         predicted_df = await self._predict(df)
         await self._store(predicted_df)
+        self._logger.debug(f"Data stored on database {data}")
 
     async def _parse(
             self,

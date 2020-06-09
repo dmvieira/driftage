@@ -1,6 +1,7 @@
 from spade.agent import Agent
 from driftage.executor.sink import Sink
 from driftage.executor.behaviour.receive_new_data import ReceiveNewData
+from driftage.base.conf import getLogger
 
 
 class Executor(Agent):
@@ -23,6 +24,7 @@ class Executor(Agent):
         :type verify_security: bool, optional
         """
         self._sink = sink
+        self._logger = getLogger("executor")
         super().__init__(jid, password, verify_security)
 
     @property
@@ -34,9 +36,10 @@ class Executor(Agent):
         """
         return self._sink
 
-    def setup(self):
+    async def setup(self):
         """[summary]
         """
         self.presence.approve_all = True
         self.add_behaviour(ReceiveNewData())
         self.presence.set_available()
+        self._logger.info("Executor started")

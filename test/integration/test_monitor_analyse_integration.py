@@ -1,6 +1,5 @@
 import asyncio
 import os
-import pytest
 from datetime import datetime
 from asynctest import TestCase
 from sqlalchemy import create_engine
@@ -10,11 +9,10 @@ from driftage.monitor import Monitor
 from driftage.analyser import Analyser
 from driftage.db.connection import Connection
 
-from test.integration.helpers.test_analyser_predictor import (
-    TestAnalyserPredictor)
+from test.integration.helpers.helper_analyser_predictor import (
+    HelperAnalyserPredictor)
 
 
-@pytest.mark.serial
 class TestMonitorAnalyseIntegration(TestCase):
 
     async def setUp(self):
@@ -23,7 +21,7 @@ class TestMonitorAnalyseIntegration(TestCase):
         self.breaker = CircuitBreaker()
         self.connection = Connection(
             self.engine, 10, self.breaker)
-        self.predictor = TestAnalyserPredictor(self.connection)
+        self.predictor = HelperAnalyserPredictor(self.connection)
         self.analyser = Analyser(
             "analyser@localhost",
             "passw0rd",

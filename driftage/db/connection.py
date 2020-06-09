@@ -3,8 +3,10 @@ from datetime import datetime
 from sqlalchemy.engine import Engine
 from sqlalchemy.sql import select
 from sqlalchemy.exc import OperationalError
-from driftage.db.schema import table
 from aiobreaker import CircuitBreaker
+
+from driftage.db.schema import table
+from driftage.base.conf import getLogger
 
 
 class Connection:
@@ -28,6 +30,7 @@ class Connection:
         self._bulk_df = pd.DataFrame()
         self.get = circuit_breaker(self.get)
         self._insert = circuit_breaker(self._insert)
+        self._logger = getLogger("connection")
 
     async def _insert(self):
         """[summary]
@@ -39,6 +42,7 @@ class Connection:
             index=False,
             method="multi"
         )
+        self._logger.debug(f"Inserted on table {table.name}")
         self._bulk_df = pd.DataFrame()
 
     async def lazy_insert(self, df: pd.DataFrame):
@@ -68,12 +72,15 @@ class Connection:
             (table.c.driftage_datetime > from_datetime) &
             (table.c.driftage_datetime < to_datetime)
         )
+        query = str(selectable.compile(self._conn))
         try:
             return pd.read_sql_query(
-                sql=str(selectable.compile(self._conn)),
+                sql=query,
                 con=self._conn,
                 parse_dates=[table.c.driftage_datetime.name],
                 params=[from_datetime, to_datetime]
             )
-        except OperationalError:
+            self._logger.debug(f"Query executed: {query}")
+        except (OperationalError, KeyError) as e:
+            self._logger.exception(e)
             return pd.DataFrame()

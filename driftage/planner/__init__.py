@@ -1,12 +1,13 @@
 from collections import deque
 from typing import Iterable
-from spade.agent import Agent
+from driftage.base.agent.subscriptor import Subscriptor
 from driftage.planner.behaviour.predict import Predict
 from driftage.planner.behaviour.wait_collects import WaitCollects
 from driftage.planner.predictor import PlannerPredictor
+from driftage.base.conf import getLogger
 
 
-class Planner(Agent):
+class Planner(Subscriptor):
     def __init__(
             self,
             jid: str,
@@ -36,6 +37,7 @@ class Planner(Agent):
         self._executors = executors_jid
         self._cache = deque([], cache_max_size)
         self._sent_data = {}
+        self._logger = getLogger("planner")
         super().__init__(jid, password, verify_security)
 
     @property
@@ -73,3 +75,4 @@ class Planner(Agent):
             self.presence.subscribe(e)
         self.add_behaviour(
             Predict(period=self.predictor.predict_period))
+        self._logger.info("Planner started")

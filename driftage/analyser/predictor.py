@@ -1,13 +1,12 @@
 from typing import List, Optional
-from abc import abstractmethod
+from abc import abstractmethod, abstractproperty
 from pandas import DataFrame
 from driftage.base.predictor import Predictor
 
 
 class AnalyserPredictor(Predictor):
 
-    @property
-    @abstractmethod
+    @abstractproperty
     def retrain_period(self) -> Optional[int]:
         """[summary]
 

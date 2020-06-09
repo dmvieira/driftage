@@ -1,16 +1,20 @@
 from driftage.base.behaviour.wait_subscriptions import WaitSubscriptions
+from driftage.base.conf import getLogger
 
 
 class WaitMonitorSubscriptions(WaitSubscriptions):
 
-    def on_subscribe(self, jid):
+    _logger = getLogger("wait_monitor_subscriptions")
+
+    def on_subscribe(self, jid: str):
         """[summary]
 
         :param jid: [description]
-        :type jid: [type]
+        :type jid: [str]
         """
         self.presence.approve(jid)
         self.presence.subscribe(jid)
+        self._logger.debug(f"Approved and subscribing to {jid}")
 
     async def run(self):
         """[summary]

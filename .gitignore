@@ -37,3 +37,8 @@ nbproject/
 
 .DS_Store
 Thumbs.db
+
+
+# Ignore project specific
+
+*.sql

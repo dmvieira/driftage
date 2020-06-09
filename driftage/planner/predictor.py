@@ -1,5 +1,5 @@
 from typing import List, Union
-from abc import abstractmethod
+from abc import abstractmethod, abstractproperty
 from dataclasses import dataclass
 from driftage.base.predictor import Predictor
 
@@ -15,8 +15,7 @@ class PredictResult:
 
 class PlannerPredictor(Predictor):
 
-    @property
-    @abstractmethod
+    @abstractproperty
     def predict_period(self) -> int:
         """[summary]
 
