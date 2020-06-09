@@ -11,7 +11,7 @@ class NotifyContacts(OneShotBehaviour):
     async def run(self):
         """[summary]
         """
-        for contact in self.agent.available_contacts:
+        for contact in self.agent.available_contacts.copy():
             contact_data = self.agent.sent_data[contact]
             if ((len(contact_data) > 0) and
                     (contact_data[-1] == id(self.agent.cache[-1]))):

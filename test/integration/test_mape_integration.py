@@ -66,7 +66,7 @@ class TestMAPEIntegration(TestCase):
         mock_dt.utcnow.return_value = now
         for i in range(self.cache_to_save):
             self.monitor({"my data": i})
-        await asyncio.sleep(10)
+        await asyncio.sleep(3)
         self.sink.external.assert_called_with(
             {
                 'timestamp': now.timestamp(),

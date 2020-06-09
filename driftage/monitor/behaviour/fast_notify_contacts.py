@@ -10,7 +10,7 @@ class FastNotifyContacts(OneShotBehaviour):
     async def run(self):
         """[summary]
         """
-        for contact in self.agent.available_contacts:
+        for contact in self.agent.available_contacts.copy():
             msg = Message(
                 to=contact,
                 body=self.template.body

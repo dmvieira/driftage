@@ -3,6 +3,7 @@ import logging
 
 DRIFTAGE_LOG_LEVEL = os.environ.get("DRIFTAGE_LOG_LEVEL", "INFO")
 
+
 def getLogger(name: str, level: str = DRIFTAGE_LOG_LEVEL):
     """[summary]
 
