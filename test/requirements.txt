@@ -2,11 +2,11 @@
 ##
 ##   python -m pip install --requirement=test/requirements.txt
 ##
-pytest<6.0.0
-pytest-cov<3.0.0
+pytest>5.0.0,<6.0.0
+pytest-cov>2.0.0,<3.0.0
 pytest-xdist==1.32.0
-coverage<6.0
-bandit<2.0.0
-flake8<4.0.0
-asynctest<0.14.0
+coverage>5.0,<6.0
+bandit>1.0.0,<2.0.0
+flake8>3.0.0,<4.0.0
+asynctest>0.13,<0.14.0
 freezegun==0.3.15
