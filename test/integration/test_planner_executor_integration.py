@@ -24,6 +24,7 @@ class TestPlannerExecutorIntegration(TestCase):
         self.connection = Connection(
             self.engine, 10, self.breaker)
         self.sink = HelperSink(self.breaker)
+        self.sink.external.reset_mock()
         self.executor = Executor("executor@localhost", "passw0rd", self.sink)
         self.planner_predictor = HelperPlannerPredictor(self.connection)
         self.cache_number = 3
@@ -60,7 +61,7 @@ class TestPlannerExecutorIntegration(TestCase):
         self.planner.start()
         await asyncio.sleep(2)
         self.executor.start()
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
         for i in range(1, 5):
             self.assertGreaterEqual(self.sink.external.call_count, i)
             self.assertLessEqual(self.sink.external.call_count, i+1)

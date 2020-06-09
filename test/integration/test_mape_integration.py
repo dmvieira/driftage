@@ -29,6 +29,7 @@ class TestMAPEIntegration(TestCase):
             self.engine, self.cache_to_save, self.breaker)
         self.analyser_predictor = HelperAnalyserPredictor(self.connection)
         self.sink = HelperSink(self.breaker)
+        self.sink.external.reset_mock()
         self.analyser = Analyser(
             "analyser@localhost",
             "passw0rd",
@@ -49,7 +50,7 @@ class TestMAPEIntegration(TestCase):
         await asyncio.sleep(2)
         self.analyser.start()
         self.executor.start()
-        await asyncio.sleep(5)
+        await asyncio.sleep(3)
 
     def tearDown(self):
         self.monitor.stop()
@@ -65,8 +66,8 @@ class TestMAPEIntegration(TestCase):
         mock_dt.utcnow.return_value = now
         for i in range(self.cache_to_save):
             self.monitor({"my data": i})
-        await asyncio.sleep(1)
-        self.sink.external.assert_called_once_with(
+        await asyncio.sleep(10)
+        self.sink.external.assert_called_with(
             {
                 'timestamp': now.timestamp(),
                 'identifier': 'data0',
