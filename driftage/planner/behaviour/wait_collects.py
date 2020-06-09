@@ -32,3 +32,15 @@ class WaitCollects(WaitSubscriptions):
         except KeyError:
             pass
         super().on_unavailable(jid, stanza)
+
+    async def run(self):
+        """[summary]
+        """
+        contacts = self.presence.get_contacts().copy()
+        for contact in contacts:
+            self._logger.error(contacts[contact])
+            if contacts[contact].get("presence"):
+                presence = contacts[contact]["presence"]
+                if presence.type_.name == "AVAILABLE":
+                    self.on_available(str(contact), presence)
+        await super().run()

@@ -75,4 +75,5 @@ class Planner(Subscriptor):
             self.presence.subscribe(e)
         self.add_behaviour(
             Predict(period=self.predictor.predict_period))
+        self.presence.set_available()
         self._logger.info("Planner started")

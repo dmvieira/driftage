@@ -46,11 +46,13 @@ class TestMAPEIntegration(TestCase):
             ["executor@localhost"]
         )
         self.monitor.start()
-        self.planner.start()
+        self.executor.start()
+
         await asyncio.sleep(2)
         self.analyser.start()
-        self.executor.start()
-        await asyncio.sleep(3)
+        self.planner.start()
+
+        await asyncio.sleep(2)
 
     def tearDown(self):
         self.monitor.stop()
@@ -66,8 +68,8 @@ class TestMAPEIntegration(TestCase):
         mock_dt.utcnow.return_value = now
         for i in range(self.cache_to_save):
             self.monitor({"my data": i})
-        await asyncio.sleep(3)
-        self.sink.external.assert_called_with(
+        await asyncio.sleep(1)
+        self.sink.external.assert_called_once_with(
             {
                 'timestamp': now.timestamp(),
                 'identifier': 'data0',

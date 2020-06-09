@@ -10,8 +10,43 @@ class TestWaitCollects(TestCase):
         self.agent.available_contacts = dict()
         self.agent.cache = deque([], 10)
         self.agent.sent_data = dict()
+        self.agent.presence.get_contacts.return_value = {}
         self.behaviour = WaitCollects()
         self.behaviour.set_agent(self.agent)
+
+    async def test_should_get_contacts_on_startup(self):
+        presence_mock = Mock()
+        presence_mock.type_.name = "AVAILABLE"
+        self.agent.presence.get_contacts.return_value = {
+            "agent": {
+                "presence": presence_mock
+            }
+        }
+        self.behaviour.on_available = Mock()
+        await self.behaviour.run()
+        self.behaviour.on_available.assert_called_once_with(
+            "agent", presence_mock
+        )
+
+    async def test_should_ignore_unavailable_contacts_on_startup(self):
+        presence_mock = Mock()
+        presence_mock.type_.name = "UNAVAILABLE"
+        self.agent.presence.get_contacts.return_value = {
+            "agent": {
+                "presence": presence_mock
+            }
+        }
+        self.behaviour.on_available = Mock()
+        await self.behaviour.run()
+        self.behaviour.on_available.assert_not_called()
+
+    async def test_should_ignore_with_no_presence_contacts_on_startup(self):
+        self.agent.presence.get_contacts.return_value = {
+            "agent": {}
+        }
+        self.behaviour.on_available = Mock()
+        await self.behaviour.run()
+        self.behaviour.on_available.assert_not_called()
 
     async def test_should_set_callbacks(self):
         await self.behaviour.run()
