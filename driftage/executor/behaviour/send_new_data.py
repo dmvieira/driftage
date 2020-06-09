@@ -4,7 +4,7 @@ from driftage.base.conf import getLogger
 
 
 class SendNewData(OneShotBehaviour):
-    
+
     _logger = getLogger("send_new_data")
 
     async def run(self):
