@@ -49,7 +49,7 @@ class TestMAPEIntegration(TestCase):
         await asyncio.sleep(2)
         self.analyser.start()
         self.executor.start()
-        await asyncio.sleep(1)
+        await asyncio.sleep(5)
 
     def tearDown(self):
         self.monitor.stop()

@@ -1,4 +1,5 @@
 import asyncio
+from os import path
 from datetime import datetime
 from asynctest import TestCase, patch
 from sqlalchemy import create_engine
@@ -16,6 +17,8 @@ from test.integration.helpers.helper_sink import HelperSink
 class TestPlannerExecutorIntegration(TestCase):
 
     async def setUp(self):
+        if not path.exists("test/resources/database.dump"):
+            raise IOError("database not exists")
         self.engine = create_engine("sqlite:///test/resources/database.dump")
         self.breaker = CircuitBreaker()
         self.connection = Connection(
