@@ -16,8 +16,6 @@ from test.integration.helpers.helper_sink import HelperSink
 
 class TestPlannerExecutorIntegration(TestCase):
 
-    @patch.dict(
-        "driftage.db.schema.environ", {"DRIFTAGE_TABLENAME": "driftage_data"})
     async def setUp(self):
         if not path.exists("test/resources/database.dump"):
             raise IOError("database not exists")
