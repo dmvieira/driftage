@@ -16,7 +16,7 @@ pip install driftage
 
 ## Usage
 
-Check [Documentation](https://driftage.readthedocs.io/en/latest/) for more information.
+Check [Documentation](https://driftage.readthedocs.io) for more information.
 
 ## Contribute
 
