@@ -14,6 +14,7 @@ from test.integration.helpers.helper_planner_predictor import (
 from test.integration.helpers.helper_sink import HelperSink
 
 
+@patch.dict("os.environ", {"DRIFTAGE_TABLENAME": "driftage_data"})
 class TestPlannerExecutorIntegration(TestCase):
 
     async def setUp(self):
