@@ -28,9 +28,11 @@ class Analyser(Agent):
         :type predictor: AnalyserPredictor
         :param database_connection: Database connection using SQLAlchemy.
         :type database_connection: Connection
-        :param monitors_jid: List of monitors that this analyser will predict Concept Drifts.
+        :param monitors_jid: List of monitors that this analyser will
+        predict Concept Drifts.
         :type monitors_jid: Iterable[str]
-        :param verify_security: Security validation with XMPP server, defaults to False.
+        :param verify_security: Security validation with XMPP server,
+        defaults to False.
         :type verify_security: bool, optional
         """
         self._monitors = monitors_jid

@@ -15,14 +15,16 @@ class Connection:
             db_engine: Engine,
             bulk_size: int,
             circuit_breaker: CircuitBreaker = CircuitBreaker()):
-        """Connects with SQLAlchemy Engine to store and query for 
+        """Connects with SQLAlchemy Engine to store and query for
         data for concept drift datection.
 
         :param db_engine: SQLAlchemy Engine to use as backend
         :type db_engine: Engine
-        :param bulk_size: Quantity of data that connection will wait to make bulk insert
+        :param bulk_size: Quantity of data that connection will
+        wait to make bulk insert
         :type bulk_size: int
-        :param circuit_breaker: Circuit Breaker configuration to connect with Database, defaults to CircuitBreaker()
+        :param circuit_breaker: Circuit Breaker configuration to
+        connect with Database, defaults to CircuitBreaker()
         :type circuit_breaker: CircuitBreaker, optional
         """
         self._jid = None

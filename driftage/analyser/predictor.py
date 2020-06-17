@@ -1,5 +1,5 @@
 from typing import List, Optional
-from abc import abstractmethod, abstractproperty
+from abc import abstractmethod
 from pandas import DataFrame
 from driftage.base.predictor import Predictor
 
@@ -20,16 +20,16 @@ class AnalyserPredictor(Predictor):
 
     def fit(self):
         """Load new model or get old data for model retrain.
-        If you set None to retrain_period, than you can ignore 
+        If you set None to retrain_period, than you can ignore
         this function on inheritance.
         """
         pass
 
     @abstractmethod
     def predict(self, X: DataFrame) -> List[bool]:
-        """Receives Pandas DataFrame and 
+        """Receives Pandas DataFrame and
         predicts if new data is a Concept Drift of not.
-        DataFrame has the same schema as Database Schema, 
+        DataFrame has the same schema as Database Schema,
         but without predict result.
 
         :param X: Data to be predicted as Concept Drift
