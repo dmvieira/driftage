@@ -6,32 +6,36 @@ from driftage.base.predictor import Predictor
 
 class AnalyserPredictor(Predictor):
 
-    @abstractproperty
     def retrain_period(self) -> Optional[int]:
-        """[summary]
+        """Retrain time period (in seconds).
+        This property defines how long AnalyserPredictor will wait
+        until next fit call.
+        Retrain is optional and if returns None, fit method is
+        never called.
 
-        :raises NotImplementedError: [description]
-        :return: [description]
+        :return: Time to wait for retrain in seconds or None if no retrain
         :rtype: Optional[int]
         """
-        raise NotImplementedError
+        return None
 
-    @abstractmethod
     def fit(self):
-        """[summary]
-
-        :raises NotImplementedError: [description]
+        """Load new model or get old data for model retrain.
+        If you set None to retrain_period, than you can ignore 
+        this function on inheritance.
         """
-        raise NotImplementedError
+        pass
 
     @abstractmethod
     def predict(self, X: DataFrame) -> List[bool]:
-        """[summary]
+        """Receives Pandas DataFrame and 
+        predicts if new data is a Concept Drift of not.
+        DataFrame has the same schema as Database Schema, 
+        but without predict result.
 
-        :param X: [description]
+        :param X: Data to be predicted as Concept Drift
         :type X: DataFrame
-        :raises NotImplementedError: [description]
-        :return: [description]
+        :raises NotImplementedError: Need to be implemented when override
+        :return: Predictions for that DataFrame as a List if is drift or not
         :rtype: List[bool]
         """
         raise NotImplementedError

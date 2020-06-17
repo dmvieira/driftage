@@ -17,19 +17,20 @@ class Analyser(Agent):
             monitors_jid: Iterable[str],
             verify_security: bool = False
     ):
-        """[summary]
+        """Agent to predict Concept Drifts using a customized
+        Predictor for that. This agent authenticates on XMPP server.
 
-        :param jid: [description]
+        :param jid: Id for XMPP authentication. Ex: user@localhost
         :type jid: str
-        :param password: [description]
+        :param password: Password for XMPP authentication.
         :type password: str
-        :param predictor: [description]
+        :param predictor: Predictor for Concept Drift detection.
         :type predictor: AnalyserPredictor
-        :param database_connection: [description]
+        :param database_connection: Database connection using SQLAlchemy.
         :type database_connection: Connection
-        :param monitors_jid: [description]
+        :param monitors_jid: List of monitors that this analyser will predict Concept Drifts.
         :type monitors_jid: Iterable[str]
-        :param verify_security: [description], defaults to False
+        :param verify_security: Security validation with XMPP server, defaults to False.
         :type verify_security: bool, optional
         """
         self._monitors = monitors_jid
@@ -40,24 +41,24 @@ class Analyser(Agent):
 
     @property
     def connection(self):
-        """[summary]
+        """Connection property.
 
-        :return: [description]
-        :rtype: [type]
+        :return: Database connection using SQLAlchemy.
+        :rtype: Connection
         """
         return self._connection
 
     @property
     def predictor(self):
-        """[summary]
+        """Predictor property
 
-        :return: [description]
-        :rtype: [type]
+        :return: Predictor for Concept Drift detection.
+        :rtype: AnalyserPredictor
         """
         return self._predictor
 
     async def setup(self):
-        """[summary]
+        """Agent startup for behaviours.
         """
         self.presence.approve_all = True
         self.presence.set_available()

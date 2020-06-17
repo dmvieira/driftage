@@ -8,3 +8,4 @@ API
    driftage.analyser
    driftage.planner
    driftage.executor
+   driftage.kb

@@ -14,4 +14,6 @@ or
     conda install driftage
 
 
-Now you can build your own :doc:`driftage.monitor`, :doc:`driftage.analyser`, :doc:`driftage.planner` and :doc:`driftage.executor`.
+Now you can build your own :doc:`driftage.monitor`, 
+:doc:`driftage.analyser`, :doc:`driftage.planner` 
+and :doc:`driftage.executor` using :doc:`driftage.kb`

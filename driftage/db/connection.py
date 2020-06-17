@@ -15,13 +15,14 @@ class Connection:
             db_engine: Engine,
             bulk_size: int,
             circuit_breaker: CircuitBreaker = CircuitBreaker()):
-        """[summary]
+        """Connects with SQLAlchemy Engine to store and query for 
+        data for concept drift datection.
 
-        :param db_engine: [description]
+        :param db_engine: SQLAlchemy Engine to use as backend
         :type db_engine: Engine
-        :param bulk_size: [description]
+        :param bulk_size: Quantity of data that connection will wait to make bulk insert
         :type bulk_size: int
-        :param circuit_breaker: [description], defaults to CircuitBreaker()
+        :param circuit_breaker: Circuit Breaker configuration to connect with Database, defaults to CircuitBreaker()
         :type circuit_breaker: CircuitBreaker, optional
         """
         self._jid = None
@@ -33,7 +34,7 @@ class Connection:
         self._logger = getLogger("connection")
 
     async def _insert(self):
-        """[summary]
+        """Really insert to database with Pandas.
         """
         self._bulk_df.to_sql(
             name=table.name,
@@ -46,9 +47,9 @@ class Connection:
         self._bulk_df = pd.DataFrame()
 
     async def lazy_insert(self, df: pd.DataFrame):
-        """[summary]
+        """Insert in database if bulk size reached.
 
-        :param df: [description]
+        :param df: Data to be inserted
         :type df: pd.DataFrame
         """
         self._bulk_df = pd.concat([self._bulk_df, df])
@@ -59,13 +60,13 @@ class Connection:
             self,
             from_datetime: datetime,
             to_datetime: datetime) -> pd.DataFrame:
-        """[summary]
+        """Get data between dates from database.
 
-        :param from_datetime: [description]
+        :param from_datetime: Start Datetime to search
         :type from_datetime: datetime
-        :param to_datetime: [description]
+        :param to_datetime: End Datetime to search
         :type to_datetime: datetime
-        :return: [description]
+        :return: Data got from date range specified
         :rtype: pd.DataFrame
         """
         selectable = select([table]).where(

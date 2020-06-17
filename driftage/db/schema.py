@@ -2,7 +2,7 @@ from os import environ
 from sqlalchemy import (
     Table, Column, String, Boolean, DateTime, PickleType, MetaData)
 
-DRIFTAGE_TABLENAME = environ.get("DRIFTAGE_TABLENAME", "driftage_data")
+DRIFTAGE_TABLENAME = environ.get("DRIFTAGE_TABLENAME", "driftage_kb")
 
 table = Table(DRIFTAGE_TABLENAME, MetaData(),
               Column('driftage_jid', String, primary_key=True),
