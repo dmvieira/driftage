@@ -17,17 +17,20 @@ class Planner(Subscriptor):
             cache_max_size: int = 10,
             verify_security: bool = False
     ):
-        """[summary]
+        """Agent to predict Concept Drifts from KB using a customized
+        Predictor for that. This agent authenticates on XMPP server.
 
-        :param jid: [description]
+        :param jid: Id for XMPP authentication. Ex: user@localhost
         :type jid: str
-        :param password: [description]
+        :param password: Password for XMPP authentication.
         :type password: str
-        :param predictor: [description]
+        :param predictor: Predictor for Concept Drift detection.
         :type predictor: PlannerPredictor
-        :param executors_jid: [description]
+        :param executors_jid: List of executors that this planner will
+        send detected Concept Drifts.
         :type executors_jid: Iterable[str]
-        :param cache_max_size: [description], defaults to 10
+        :param cache_max_size: Cache list if executor is unavailable,
+        defaults to 10
         :type cache_max_size: int, optional
         :param verify_security: [description], defaults to False
         :type verify_security: bool, optional
@@ -42,33 +45,33 @@ class Planner(Subscriptor):
 
     @property
     def sent_data(self):
-        """[summary]
+        """Stores a cache for each executor for data sent.
 
-        :return: [description]
-        :rtype: [type]
+        :return: dict of executor -> data sent
+        :rtype: dict
         """
         return self._sent_data
 
     @property
     def cache(self):
-        """[summary]
+        """Stores a cache for predicted items to send.
 
-        :return: [description]
-        :rtype: [type]
+        :return: deque with last itens predicted
+        :rtype: deque
         """
         return self._cache
 
     @property
     def predictor(self):
-        """[summary]
+        """Predictor property
 
-        :return: [description]
-        :rtype: [type]
+        :return: Predictor for Concept Drift detection.
+        :rtype: PlannerPredictor
         """
         return self._predictor
 
     async def setup(self):
-        """[summary]
+        """Agent startup for behaviours.
         """
         self.add_behaviour(WaitCollects())
         for e in self._executors:

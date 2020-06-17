@@ -17,15 +17,17 @@ class Monitor(Subscriptor):
             identifier: Optional[str] = None,
             verify_security: bool = False
     ):
-        """[summary]
+        """Agent to collect data from sources and sent to Analyser.
+        This agent authenticates on XMPP server.
 
-        :param jid: [description]
+        :param jid: Id for XMPP authentication. Ex: user@localhost
         :type jid: str
-        :param password: [description]
+        :param password: Password for XMPP authentication.
         :type password: str
-        :param identifier: [description], defaults to None
+        :param identifier: Data identification or agent jid, defaults to None
         :type identifier: Optional[str], optional
-        :param verify_security: [description], defaults to False
+        :param verify_security: Security validation with XMPP server,
+        defaults to False.
         :type verify_security: bool, optional
         """
         super().__init__(jid, password, verify_security)
@@ -33,15 +35,15 @@ class Monitor(Subscriptor):
         self._logger = getLogger("monitor")
 
     async def setup(self):
-        """[summary]
+        """Agent startup for behaviours.
         """
         self.add_behaviour(WaitMonitorSubscriptions())
         self._logger.info("Monitor started")
 
     def collect(self, data: dict):
-        """[summary]
+        """Callback to collect data to be send as dict.
 
-        :param data: [description]
+        :param data: Data to send
         :type data: dict
         """
         self.add_behaviour(

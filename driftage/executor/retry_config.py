@@ -10,17 +10,22 @@ class RetryConfig:
             max_tries: int = 3,
             all_tries_timeout: Optional[Union[int, float]] = None,
             retry_exceptions: Tuple[Exception] = (Exception,)):
-        """[summary]
+        """Retry configuration for Sink connection. configuring
+        this retry it will be resilient when sending data to Sink.
 
-        :param send_timeout: [description], defaults to 1.0
+        :param send_timeout: All timeouts when send in seconds,
+        defaults to 1.0
         :type send_timeout: Optional[Union[int, float]], optional
-        :param retry_backoff: [description], defaults to 1.0
+        :param retry_backoff: Time to wait to another try in seconds,
+        defaults to 1.0
         :type retry_backoff: Union[int, float], optional
-        :param max_tries: [description], defaults to 3
+        :param max_tries: Maximum number of tries, defaults to 3
         :type max_tries: int, optional
-        :param all_tries_timeout: [description], defaults to None
+        :param all_tries_timeout: Total timeout from all retries in seconds,
+        defaults to None
         :type all_tries_timeout: Optional[Union[int, float]], optional
-        :param retry_exceptions: [description], defaults to (Exception,)
+        :param retry_exceptions: Exceptions that we should take in account
+        to retry, defaults to (Exception,)
         :type retry_exceptions: Tuple[Exception], optional
         """
         self._decorator = asyncbackoff(
@@ -31,11 +36,11 @@ class RetryConfig:
             exceptions=retry_exceptions
         )
 
-    def __call__(self, fn: Callable):
-        """[summary]
+    def __call__(self, fn: Callable) -> Callable:
+        """Retry decorator for Sink functions (internally used)
         :type fn: Callable, optional
-        :param fn: [description], function to decorate
-        :return: [description]
-        :rtype: [type]
+        :param fn: function to decorate
+        :return: Decorated function with retries
+        :rtype: Callable
         """
         return self._decorator(fn)
