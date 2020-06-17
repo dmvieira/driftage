@@ -53,20 +53,20 @@ Diftage is a modular multi-agent framework to detect concept drifts from batch o
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Getting Started
 
    install
    example
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Documentation
 
    api   
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Additional Information
 
    dataflow
