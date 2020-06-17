@@ -8,7 +8,6 @@ Retry Config
 .. automodule:: driftage.executor.retry_config
    :members:
    :undoc-members:
-   :show-inheritance:
 
 Sink
 -----------------------------
@@ -16,4 +15,3 @@ Sink
 .. automodule:: driftage.executor.sink
    :members:
    :undoc-members:
-   :show-inheritance:

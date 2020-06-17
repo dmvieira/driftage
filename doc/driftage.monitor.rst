@@ -5,4 +5,3 @@ Captures data integrated to any framework you want: `Spark <https://spark.apache
 .. automodule:: driftage.monitor
    :members:
    :undoc-members:
-   :show-inheritance:

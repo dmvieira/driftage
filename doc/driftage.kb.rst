@@ -10,7 +10,6 @@ Build on top of `SQLAlchemy <https://www.sqlalchemy.org/>`_ to interact with Kno
 .. automodule:: driftage.db.connection
    :members:
    :undoc-members:
-   :show-inheritance:
 
 
 Schema
