@@ -21,10 +21,10 @@ class Connection:
         :param db_engine: SQLAlchemy Engine to use as backend
         :type db_engine: Engine
         :param bulk_size: Quantity of data that connection will
-        wait to make bulk insert
+            wait to make bulk insert
         :type bulk_size: int
         :param circuit_breaker: Circuit Breaker configuration to
-        connect with Database, defaults to CircuitBreaker()
+            connect with Database, defaults to CircuitBreaker()
         :type circuit_breaker: CircuitBreaker, optional
         """
         self._jid = None

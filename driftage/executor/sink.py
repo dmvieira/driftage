@@ -16,13 +16,13 @@ class Sink:
         MariaDB, or even an API.
 
         :param circuit_breaker: Circuit breaker to protect Sink if it's down,
-        defaults to CircuitBreaker()
+            defaults to CircuitBreaker()
         :type circuit_breaker: CircuitBreaker, optional
         :param is_available_cache_ttl: Healthcheck cache time to is_available
-        method in seconds, defaults to 1.0
+            method in seconds, defaults to 1.0
         :type is_available_cache_ttl: Union[int, float], optional
         :param retry_config: Retry configuration to send data to Sink,
-        defaults to RetryConfig()
+            defaults to RetryConfig()
         :type retry_config: RetryConfig, optional
         """
         cache = TTLCache(1, is_available_cache_ttl)

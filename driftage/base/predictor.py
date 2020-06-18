@@ -5,18 +5,18 @@ from driftage.db.connection import Connection
 class Predictor(metaclass=ABCMeta):
 
     def __init__(self, connection: Connection):
-        """[summary]
+        """Predictor base class for Concept Drift detection.
 
-        :param connection: [description]
+        :param connection: Knowledge Base connection
         :type connection: Connection
         """
         self._connection = connection
 
     @property
     def connection(self):
-        """[summary]
+        """KB connection using SQLAlchemy
 
-        :return: [description]
-        :rtype: [type]
+        :return: Connection object to database
+        :rtype: Connection
         """
         return self._connection

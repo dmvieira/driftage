@@ -27,7 +27,7 @@ class Monitor(Subscriptor):
         :param identifier: Data identification or agent jid, defaults to None
         :type identifier: Optional[str], optional
         :param verify_security: Security validation with XMPP server,
-        defaults to False.
+            defaults to False.
         :type verify_security: bool, optional
         """
         super().__init__(jid, password, verify_security)

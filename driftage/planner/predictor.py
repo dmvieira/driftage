@@ -10,17 +10,15 @@ class PredictResult:
     result and if this prediction should be sent to Executor.
 
     :param identifier: Data identifier that comes from Monitor or any
-    identifier you want.
+        identifier you want.
     :type identifier: str
     :param predicted: Value predicted from Drift detection algorithm. This can
-    even inform type of drift to Executor.
+        even inform type of drift to Executor.
     :type predicted: Union[bool, str, int, float]
     :param should_send: If this prediction should be sent to Executor.
-    Sometimes your Planner can decide to don't send because of time or
-    other business rules.
+        Sometimes your Planner can decide to don't send because of time or
+        other business rules.
     :type should_send: bool
-
-
     """
     identifier: str
     predicted: Union[bool, str, int, float]

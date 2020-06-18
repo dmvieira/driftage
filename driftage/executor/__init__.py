@@ -22,7 +22,7 @@ class Executor(Agent):
         :param sink: Where predicted Concept Drifts will be dispatched.
         :type sink: Sink
         :param verify_security: Security validation with XMPP server,
-        defaults to False.
+            defaults to False.
         :type verify_security: bool, optional
         """
         self._sink = sink
