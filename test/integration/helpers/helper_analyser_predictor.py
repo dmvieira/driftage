@@ -13,4 +13,4 @@ class HelperAnalyserPredictor(AnalyserPredictor):
         self.fitted = True
 
     def predict(self, X):
-        return [1]*len(X.index)
+        return True

@@ -4,6 +4,7 @@ from datetime import datetime
 from spade.behaviour import OneShotBehaviour
 from driftage.db.schema import table
 from driftage.base.conf import getLogger
+from driftage.analyser.predictor import PredictionData
 
 
 class StoreNewData(OneShotBehaviour):
@@ -14,56 +15,54 @@ class StoreNewData(OneShotBehaviour):
         """[summary]
         """
         msg = json.loads(self.template.body)
-        data = msg["data"]
-        metadata = msg["metadata"]
-        timestamp = metadata["timestamp"]
-        identifier = metadata["identifier"]
-        df = await self._parse(data, timestamp, identifier)
-        predicted_df = await self._predict(df)
-        await self._store(predicted_df)
+        data = await self._parse(msg)
+        predicted = await self._predict(data)
+        await self._store(data, predicted)
         self._logger.debug(f"Data stored on database {data}")
 
-    async def _parse(
-            self,
-            data: dict,
-            timestamp: float,
-            identifier: str) -> pd.DataFrame:
+    async def _parse(self, msg: dict) -> pd.DataFrame:
+        """[summary]
+
+        :param msg: [description]
+        :type msg: dict
+        :return: [description]
+        :rtype: PredictionData
+        """
+        data = msg["data"]
+        metadata = msg["metadata"]
+
+        return PredictionData(
+            data=data,
+            timestamp=datetime.fromtimestamp(metadata["timestamp"]),
+            identifier=metadata["identifier"]
+        )
+
+    async def _predict(self, data: PredictionData) -> bool:
         """[summary]
 
         :param data: [description]
-        :type data: dict
-        :param timestamp: [description]
-        :type timestamp: float
-        :param identifier: [description]
-        :type identifier: str
+        :type data: PredictionData
         :return: [description]
-        :rtype: pd.DataFrame
+        :rtype: bool
         """
-        return pd.DataFrame(
+        return self.agent.predictor.predict(data)
+
+    async def _store(self, data: PredictionData, prediction: bool):
+        """[summary]
+
+        :param data: [description]
+        :type data: PredictionData
+        :param prediction: [description]
+        :type prediction: bool
+
+        """
+        df = pd.DataFrame(
             {
                 table.c.driftage_jid.name: [self.agent.name],
-                table.c.driftage_data.name: [json.dumps(data)],
-                table.c.driftage_datetime.name: [
-                    datetime.fromtimestamp(timestamp)],
-                table.c.driftage_identifier.name: [identifier]
+                table.c.driftage_data.name: [json.dumps(data.data)],
+                table.c.driftage_datetime.name: [data.timestamp],
+                table.c.driftage_identifier.name: [data.identifier],
+                table.c.driftage_predicted.name: [prediction]
             }
         )
-
-    async def _predict(self, df: pd.DataFrame) -> pd.DataFrame:
-        """[summary]
-
-        :param df: [description]
-        :type df: pd.DataFrame
-        :return: [description]
-        :rtype: pd.DataFrame
-        """
-        df[table.c.driftage_predicted.name] = self.agent.predictor.predict(df)
-        return df
-
-    async def _store(self, df: pd.DataFrame):
-        """[summary]
-
-        :param df: [description]
-        :type df: pd.DataFrame
-        """
         await self.agent.connection.lazy_insert(df)

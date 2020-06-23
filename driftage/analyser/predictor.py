@@ -1,7 +1,25 @@
-from typing import List, Optional
+from typing import Optional
 from abc import abstractmethod
-from pandas import DataFrame
+from dataclasses import dataclass
+from datetime import datetime
 from driftage.base.predictor import Predictor
+
+
+@dataclass
+class PredictionData:
+    """Dataclass to stores data to predict.
+
+    :param data: Data that comes from Monitor.
+    :type data: dict
+    :param created_at: Datetime object that message was created.
+    :type created_at: datetime
+    :param identifier: Data identifier that comes from Monitor or any
+        identifier you want.
+    :type identifier: str
+    """
+    data: dict
+    timestamp: datetime
+    identifier: str
 
 
 class AnalyserPredictor(Predictor):
@@ -26,16 +44,14 @@ class AnalyserPredictor(Predictor):
         pass
 
     @abstractmethod
-    def predict(self, X: DataFrame) -> List[bool]:
-        """Receives Pandas DataFrame and
+    def predict(self, X: PredictionData) -> bool:
+        """Receives PredictionData and
         predicts if new data is a Concept Drift of not.
-        DataFrame has the same schema as Database Schema,
-        but without predict result.
 
         :param X: Data to be predicted as Concept Drift
-        :type X: DataFrame
+        :type X: PredictionData
         :raises NotImplementedError: Need to be implemented when override
-        :return: Predictions for that DataFrame as a List if is drift or not
-        :rtype: List[bool]
+        :return: Prediction for that PredictionData if is drift or not
+        :rtype: bool
         """
         raise NotImplementedError

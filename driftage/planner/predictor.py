@@ -6,7 +6,7 @@ from driftage.base.predictor import Predictor
 
 @dataclass
 class PredictResult:
-    """Dataclass to store each prediction,
+    """Dataclass to stores each prediction,
     result and if this prediction should be sent to Executor.
 
     :param identifier: Data identifier that comes from Monitor or any
