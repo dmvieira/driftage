@@ -1,0 +1,2 @@
+scikit-multiflow==0.5.3
+driftage>=0.0.2

@@ -20,7 +20,7 @@ for row in ROWS:
     healthSchema.add(row, "integer")
 
 
-class MonitorManager:
+class MonitorManager():
     """Examples using files from dataset
     https://archive.ics.uci.edu/ml/datasets/EMG+Physical+Action+Data+Set
     """
@@ -34,9 +34,13 @@ class MonitorManager:
 
             self.monitors.append(monitor)
         while not all([m.is_alive() for m in self.monitors]):
-            time.sleep(0.1)
+            time.sleep(1)
             print("Waiting all monitors alive")
+        while not all([bool(m.available_contacts) for m in self.monitors]):
+            time.sleep(1)
+            print(f"Waiting analysers connected {[len(m.available_contacts) for m in self.monitors]}")
         print("All monitors alive, starting...")
+        return True
         
     def process(self, row):
         for monitor in self.monitors:
@@ -49,7 +53,11 @@ class MonitorManager:
         if error:
             print(f"Got error {error}")
         for monitor in self.monitors:
+            while not all([b.is_done() for b in monitor.behaviours]):
+                print("Waiting monitors stop to send...")
+                time.sleep(1)
             monitor.stop()
+        print("All monitors stopped!")
 
 spark = SparkSession \
     .builder \

@@ -8,6 +8,7 @@ class TestWaitCollects(TestCase):
     def setUp(self):
         self.agent = Mock()
         self.agent.available_contacts = dict()
+        self.agent.jid.localpart = "other_agent"
         self.agent.cache = deque([], 10)
         self.agent.sent_data = dict()
         self.agent.presence.get_contacts.return_value = {}

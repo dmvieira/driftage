@@ -7,6 +7,7 @@ class TestWaitSubscriptions(TestCase):
     def setUp(self):
         self.agent = Mock()
         self.agent.available_contacts = dict()
+        self.agent.jid.localpart = "other_agent"
         self.behaviour = WaitSubscriptions()
         self.behaviour.set_agent(self.agent)
 
@@ -24,6 +25,11 @@ class TestWaitSubscriptions(TestCase):
         self.behaviour.on_available("my jid", "stanza")
         self.assertDictEqual(
             self.agent.available_contacts, {"my jid": "stanza"})
+
+    async def test_should_not_add_same_agent_on_available(self):
+        self.behaviour.on_available("other_agent", "stanza")
+        self.assertDictEqual(
+            self.agent.available_contacts, {})
 
     async def test_should_remove_on_unavailable(self):
         self.behaviour.on_available("my jid", "stanza")

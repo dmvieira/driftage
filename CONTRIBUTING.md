@@ -26,6 +26,9 @@ make test
 For integration tests:
 
 ```bash
+make ejabberd
+make ejabberd-test-user
+make ejabberd-admin
 make integration
 ```
 

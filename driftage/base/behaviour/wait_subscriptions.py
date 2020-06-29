@@ -15,7 +15,8 @@ class WaitSubscriptions(OneShotBehaviour):
         :param stanza: [description]
         :type stanza: [Presence]
         """
-        self.agent.available_contacts[jid] = stanza
+        if not jid.startswith(self.agent.jid.localpart):
+            self.agent.available_contacts[jid] = stanza
         self._logger.debug(f"Contact added {jid}")
 
     def on_unavailable(self, jid: str, stanza: Presence):

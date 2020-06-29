@@ -28,10 +28,10 @@ doc:
 	@sphinx-build -b html doc doc/_build/html
 
 ejabberd:
-	@docker build -t ejabberd-driftage . 
+	@docker build -t ejabberd-driftage examples/ejabberd_config/
 	@docker run --name ejabberd --rm -d -p 5222:5222 -p 5443:5443 ejabberd-driftage
 
-ejabberd-user:
+ejabberd-admin:
 	@docker exec -it ejabberd bin/ejabberdctl register admin localhost password
 
 ejabberd-test-user:

@@ -42,3 +42,4 @@ Thumbs.db
 # Ignore project specific
 
 *.sql
+.ipynb_checkpoints
