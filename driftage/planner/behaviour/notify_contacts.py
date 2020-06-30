@@ -1,4 +1,4 @@
-import json
+import orjson
 from spade.behaviour import OneShotBehaviour
 from spade.message import Message
 from driftage.base.conf import getLogger
@@ -26,7 +26,7 @@ class NotifyContacts(OneShotBehaviour):
                 to_send_id.append(id(item))
             msg = Message(
                 to=contact,
-                body=json.dumps(to_send)
+                body=str(orjson.dumps(to_send), "utf-8")
             )
             await self.send(msg)
             self.agent.sent_data[contact].extend(to_send_id)

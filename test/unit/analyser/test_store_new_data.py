@@ -1,4 +1,4 @@
-import json
+import orjson
 from pandas import Timestamp
 from freezegun import freeze_time
 from datetime import datetime
@@ -25,7 +25,7 @@ class TestStoreNewData(TestCase):
                 identifier="my data"
             )
         )
-        self.template = Template(body=json.dumps(self.body))
+        self.template = Template(body=str(orjson.dumps(self.body), "utf-8"))
         self.behaviour.set_template(self.template)
         self.agent.connection.lazy_insert = CoroutineMock()
 
@@ -38,7 +38,8 @@ class TestStoreNewData(TestCase):
         self.assertDictEqual(
             {
                 table.c.driftage_jid.name: {0: "my agent"},
-                table.c.driftage_data.name: {0: json.dumps(self.body["data"])},
+                table.c.driftage_data.name: {0: str(
+                    orjson.dumps(self.body["data"]), "utf-8")},
                 table.c.driftage_datetime.name: {
                     0: Timestamp(1989, 8, 12)},
                 table.c.driftage_identifier.name: {0: "my data"},

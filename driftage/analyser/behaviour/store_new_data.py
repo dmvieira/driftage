@@ -1,4 +1,4 @@
-import json
+import orjson
 import pandas as pd
 from datetime import datetime
 from spade.behaviour import OneShotBehaviour
@@ -14,7 +14,7 @@ class StoreNewData(OneShotBehaviour):
     async def run(self):
         """[summary]
         """
-        msg = json.loads(self.template.body)
+        msg = orjson.loads(self.template.body)
         data = await self._parse(msg)
         predicted = await self._predict(data)
         await self._store(data, predicted)
@@ -59,7 +59,8 @@ class StoreNewData(OneShotBehaviour):
         df = pd.DataFrame(
             {
                 table.c.driftage_jid.name: [self.agent.name],
-                table.c.driftage_data.name: [json.dumps(data.data)],
+                table.c.driftage_data.name: [
+                    str(orjson.dumps(data.data), "utf-8")],
                 table.c.driftage_datetime.name: [data.timestamp],
                 table.c.driftage_identifier.name: [data.identifier],
                 table.c.driftage_predicted.name: [prediction]

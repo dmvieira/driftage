@@ -1,2 +1,3 @@
 scikit-multiflow==0.5.3
-driftage>=0.0.2
+driftage>=0.0.3
+psycopg2==2.8.5

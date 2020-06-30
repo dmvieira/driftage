@@ -139,10 +139,10 @@ acl:
 
 access_rules:
   local:
-    allow: local
-  c2s:
-    deny: blocked
     allow: all
+  c2s:
+    allow: all
+    deny: blocked
   announce:
     allow: admin
   configure:
@@ -152,7 +152,7 @@ access_rules:
   pubsub_createnode:
     allow: local
   trusted_network:
-    allow: loopback
+    allow: all
 
 api_permissions:
   "console commands":

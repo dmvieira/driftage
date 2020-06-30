@@ -24,3 +24,15 @@ services:
       - MONITOR_PASSWORD=passw0rd
     depends_on:
       - ejabberd
+    network_mode: "host"
+  analyser:
+    build: analyser/
+    container_name: "adwin-analyser-driftage"
+    environment:
+      - ANALYSER_PASSWORD=passw0rd
+      - KB_CONNECTION_STRING=postgres://agents:passw0rd@localhost:5432/driftage_kb
+    depends_on:
+      - ejabberd
+      - monitor
+      - timescaledb
+    network_mode: "host"

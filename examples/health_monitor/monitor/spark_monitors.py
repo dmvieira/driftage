@@ -1,8 +1,14 @@
 import os
 import time
+import logging
 from driftage.monitor import Monitor
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType
+
+logger = logging.getLogger("spark_monitor")
+handler = logging.StreamHandler()
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
 
 
 ROWS = [
@@ -50,15 +56,15 @@ class MonitorManager():
             )
 
     def close(self, error):
-        print("Closing all monitors")
+        logger.info("Closing all monitors")
         if error:
-            print(f"Got error {error}")
+            logger.error(f"Got error {error}")
         for monitor in self.monitors:
             while not all([b.is_done() for b in monitor.behaviours]):
-                print("Waiting monitors stop to send...")
+                logger.info("Waiting monitors stop to send...")
                 time.sleep(1)
             monitor.stop()
-        print("All monitors stopped!")
+        logger.info("All monitors stopped!")
 
 spark = SparkSession \
     .builder \

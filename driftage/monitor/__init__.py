@@ -1,4 +1,4 @@
-import json
+import orjson
 from datetime import datetime
 from typing import Optional
 from driftage.base.agent.subscriptor import Subscriptor
@@ -47,12 +47,12 @@ class Monitor(Subscriptor):
         :type data: dict
         """
         self.add_behaviour(
-            FastNotifyContacts(), template=Template(body=json.dumps({
+            FastNotifyContacts(), template=Template(body=str(orjson.dumps({
                 "data": data,
                 "metadata": {
                     "timestamp": datetime.utcnow().timestamp(),
                     "identifier": self._identifier
                 }
-            })))
+            }), "utf-8")))
 
     __call__ = collect

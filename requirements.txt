@@ -5,6 +5,7 @@
 spade==3.1.4
 pandas>=1.0.0,<2.0
 sqlalchemy>=1.3,<2.0
+orjson==3.2.0
 aiobreaker==1.0.0
 aiomisc==10.0.0
 cachetools==4.1.0

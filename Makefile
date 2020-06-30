@@ -1,4 +1,4 @@
-.PHONY: setup test integration coverage lint check-sec all-tests doc
+.PHONY: setup test integration coverage lint check-sec all-tests doc example
 
 setup:
 	@pip install -e .
@@ -29,3 +29,7 @@ doc:
 
 ejabberd:
 	@docker-compose -f examples/health_monitor/docker-compose.yml up --build -d ejabberd
+
+example:
+	@docker-compose -f examples/health_monitor/docker-compose.yml down
+	@docker-compose -f examples/health_monitor/docker-compose.yml up --build

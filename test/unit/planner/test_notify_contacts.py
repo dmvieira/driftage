@@ -24,7 +24,7 @@ class TestNotifyContacts(TestCase):
         self.agent.sent_data = {"my agent": [id("data 1")]}
         await self.behaviour.run()
         message_mock.assert_called_once_with(
-            to="my agent", body='["data 2", "data 3"]')
+            to="my agent", body='["data 2","data 3"]')
         self.behaviour.send.assert_awaited_once_with(message_mock())
         self.assertDictEqual(
             self.agent.sent_data,

@@ -1,4 +1,4 @@
-import json
+import orjson
 from asynctest import TestCase, Mock, patch
 from freezegun import freeze_time
 from driftage.monitor import Monitor
@@ -49,13 +49,13 @@ class TestMonitor(TestCase):
             template=template_mock.return_value
         )
         template_mock.assert_called_once_with(
-            body=json.dumps({
+            body=str(orjson.dumps({
                 "data": {"my data": 1},
                 "metadata": {
                     "timestamp": 618883200.0,
                     "identifier": "identif"
                 }
-            })
+            }), "utf-8")
         )
 
     @freeze_time("1989-08-12")
@@ -70,11 +70,11 @@ class TestMonitor(TestCase):
             template=template_mock.return_value
         )
         template_mock.assert_called_once_with(
-            body=json.dumps({
+            body=str(orjson.dumps({
                 "data": {"my data": 1},
                 "metadata": {
                     "timestamp": 618883200.0,
                     "identifier": "identif"
                 }
-            })
+            }), "utf-8")
         )

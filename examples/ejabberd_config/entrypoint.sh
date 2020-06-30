@@ -13,4 +13,5 @@ done;
 /home/ejabberd/bin/ejabberdctl register analyser localhost passw0rd;
 /home/ejabberd/bin/ejabberdctl register planner localhost passw0rd;
 /home/ejabberd/bin/ejabberdctl register executor localhost passw0rd;
+
 tail -f /home/ejabberd/logs/ejabberd.log
