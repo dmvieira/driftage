@@ -20,5 +20,7 @@ services:
   monitor:
     build: monitor/
     container_name: "spark-monitor-driftage"
+    environment:
+      - MONITOR_PASSWORD=passw0rd
     depends_on:
       - ejabberd
