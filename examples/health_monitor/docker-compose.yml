@@ -1,0 +1,24 @@
+version: "3"
+services:
+  timescaledb:
+    image: timescale/timescaledb:latest-pg12
+    container_name: "timescaledb-driftage"
+    environment:
+      - POSTGRES_DB=driftage_kb
+      - POSTGRES_USER=agents
+      - POSTGRES_PASSWORD=passw0rd
+    volumes:
+      - "/tmp/timescaledb:/var/lib/postgresql/data"
+    ports:
+      - 5432:5432
+  ejabberd:
+    build: ../ejabberd_config/
+    container_name: "ejabberd-driftage"
+    ports:
+      - 5222:5222
+      - 5443:5443
+  monitor:
+    build: monitor/
+    container_name: "spark-monitor-driftage"
+    depends_on:
+      - ejabberd

@@ -1,3 +1,4 @@
+import os
 import time
 from driftage.monitor import Monitor
 from pyspark.sql import SparkSession
@@ -29,7 +30,7 @@ class MonitorManager():
 
         self.monitors = []
         for identifier in ROWS:
-            monitor = Monitor("monitor@localhost", "passw0rd", identifier)
+            monitor = Monitor("monitor@localhost", os.environ["MONITOR_PASSWORD"], identifier)
             monitor.start()
 
             self.monitors.append(monitor)

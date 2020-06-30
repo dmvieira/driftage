@@ -28,14 +28,4 @@ doc:
 	@sphinx-build -b html doc doc/_build/html
 
 ejabberd:
-	@docker build -t ejabberd-driftage examples/ejabberd_config/
-	@docker run --name ejabberd --rm -d -p 5222:5222 -p 5443:5443 ejabberd-driftage
-
-ejabberd-admin:
-	@docker exec -it ejabberd bin/ejabberdctl register admin localhost password
-
-ejabberd-test-user:
-	@docker exec -it ejabberd bin/ejabberdctl register monitor localhost passw0rd
-	@docker exec -it ejabberd bin/ejabberdctl register analyser localhost passw0rd
-	@docker exec -it ejabberd bin/ejabberdctl register planner localhost passw0rd
-	@docker exec -it ejabberd bin/ejabberdctl register executor localhost passw0rd
+	@docker-compose -f examples/health_monitor/docker-compose.yml up --build -d ejabberd

@@ -1,3 +1,4 @@
+import os
 import time
 from driftage.analyser import Analyser
 from driftage.analyser.predictor import AnalyserPredictor, PredictionData
@@ -50,14 +51,14 @@ class ADWINPredictor(AnalyserPredictor):
         return detector.detected_change()
 
 
-engine = create_engine("sqlite:///database.sql")
+engine = create_engine(os.environ["KB_CONNECTION_STRING"])
 
 connection = Connection(engine, bulk_size=1000)
 predictor = ADWINPredictor(connection)
 
 analyser = Analyser(
     "analyser@localhost",
-    "passw0rd",
+    os.environ["ANALYSER_PASSWORD"],
     predictor,
     connection,
     ["monitor@localhost"])
