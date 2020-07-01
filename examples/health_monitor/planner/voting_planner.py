@@ -54,7 +54,7 @@ engine = create_engine(os.environ["KB_CONNECTION_STRING"])
 connection = Connection(engine, bulk_size=10)
 predictor = VotingPredictor(connection)
 
-planner = Planner(
+planner = Planner(  # nosec
     "planner@localhost",
     os.environ["PLANNER_PASSWORD"],
     predictor,

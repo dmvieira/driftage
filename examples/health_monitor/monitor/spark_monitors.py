@@ -36,7 +36,7 @@ class MonitorManager():
 
         self.monitors = []
         for identifier in ROWS:
-            monitor = Monitor("monitor@localhost",
+            monitor = Monitor("monitor@localhost",  # nosec
                               os.environ["MONITOR_PASSWORD"], identifier)
             monitor.start()
 

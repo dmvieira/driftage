@@ -67,7 +67,7 @@ engine = create_engine(os.environ["KB_CONNECTION_STRING"])
 connection = Connection(engine, bulk_size=1000)
 predictor = ADWINPredictor(connection)
 
-analyser = Analyser(
+analyser = Analyser(  # nosec
     "analyser@localhost",
     os.environ["ANALYSER_PASSWORD"],
     predictor,
