@@ -36,3 +36,24 @@ services:
       - monitor
       - timescaledb
     network_mode: "host"
+  planner:
+    build: planner/
+    container_name: "voting-planner-driftage"
+    environment:
+      - PLANNER_PASSWORD=passw0rd
+      - KB_CONNECTION_STRING=postgres://agents:passw0rd@localhost:5432/driftage_kb
+    depends_on:
+      - ejabberd
+      - executor
+      - timescaledb
+    network_mode: "host"
+  executor:
+    build: executor/
+    container_name: "csv-executor-driftage"
+    environment:
+      - EXECUTOR_PASSWORD=passw0rd
+    volumes:
+      - "/tmp/executor:/tmp"
+    depends_on:
+      - ejabberd
+    network_mode: "host"

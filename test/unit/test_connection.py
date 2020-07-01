@@ -28,7 +28,7 @@ class TestConnection(TestCase):
         from_dt = datetime.utcnow()
         await asyncio.sleep(1)
         to_dt = datetime.utcnow()
-        await self.connection.get(from_dt, to_dt)
+        await self.connection.get_between(from_dt, to_dt)
         select_mock.assert_called_once_with([table])
         pd_mock.read_sql_query.assert_called_with(
             con=self.engine,

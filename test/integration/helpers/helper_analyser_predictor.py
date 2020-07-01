@@ -9,8 +9,8 @@ class HelperAnalyserPredictor(AnalyserPredictor):
     def retrain_period(self):
         return 1
 
-    def fit(self):
+    async def fit(self):
         self.fitted = True
 
-    def predict(self, X):
+    async def predict(self, X):
         return True

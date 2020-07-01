@@ -15,7 +15,7 @@ class TestPredict(TestCase):
     async def test_should_predict_and_do_nothing_with_empty_result(
             self, notify_mock):
         await self.behaviour.run()
-        self.agent.predictor.predict.assert_called_once_with()
+        self.agent.predictor.predict.assert_awaited_once_with()
         notify_mock.assert_not_called()
         self.agent.add_behaviour.assert_not_called()
 
@@ -25,7 +25,7 @@ class TestPredict(TestCase):
             "identfier", 1, True
         )]
         await self.behaviour.run()
-        self.agent.predictor.predict.assert_called_once_with()
+        self.agent.predictor.predict.assert_awaited_once_with()
         notify_mock.assert_called_once_with()
         self.agent.add_behaviour.assert_called_once_with(
             notify_mock()
@@ -38,6 +38,6 @@ class TestPredict(TestCase):
             "identfier", 1, False
         )]
         await self.behaviour.run()
-        self.agent.predictor.predict.assert_called_once_with()
+        self.agent.predictor.predict.assert_awaited_once_with()
         notify_mock.assert_not_called()
         self.agent.add_behaviour.assert_not_called()

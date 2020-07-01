@@ -36,7 +36,7 @@ class AnalyserPredictor(Predictor):
         """
         return None
 
-    def fit(self):
+    async def fit(self):
         """Load new model or get old data for model retrain.
         If you set None to retrain_period, than you can ignore
         this function on inheritance.
@@ -44,7 +44,7 @@ class AnalyserPredictor(Predictor):
         pass
 
     @abstractmethod
-    def predict(self, X: PredictionData) -> bool:
+    async def predict(self, X: PredictionData) -> bool:
         """Receives PredictionData and
         predicts if new data is a Concept Drift of not.
 

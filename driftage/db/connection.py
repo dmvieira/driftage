@@ -31,7 +31,7 @@ class Connection:
         self._conn = db_engine
         self._bulk_size = bulk_size
         self._bulk_df = pd.DataFrame()
-        self.get = circuit_breaker(self.get)
+        self.get_between = circuit_breaker(self.get_between)
         self._insert = circuit_breaker(self._insert)
         self._logger = getLogger("connection")
 
@@ -58,7 +58,7 @@ class Connection:
         if (len(self._bulk_df.index) >= self._bulk_size):
             await self._insert()
 
-    async def get(
+    async def get_between(
             self,
             from_datetime: datetime,
             to_datetime: datetime) -> pd.DataFrame:

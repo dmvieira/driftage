@@ -47,7 +47,7 @@ class TestMonitorAnalyseIntegration(TestCase):
             self.monitor({"my data": i})
         dt_to = datetime.utcnow()
         await asyncio.sleep(1)
-        df = await self.connection.get(dt_from, dt_to)
+        df = await self.connection.get_between(dt_from, dt_to)
         self.assertEqual(len(df.index), 10)
 
     async def test_should_not_save_monitored_data_less_than_bulk(self):
@@ -57,5 +57,5 @@ class TestMonitorAnalyseIntegration(TestCase):
             self.monitor({"my data": i})
         dt_to = datetime.utcnow()
         await asyncio.sleep(1)
-        df = await self.connection.get(dt_from, dt_to)
+        df = await self.connection.get_between(dt_from, dt_to)
         self.assertEqual(len(df.index), 0)

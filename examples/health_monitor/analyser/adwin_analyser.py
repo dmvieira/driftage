@@ -29,7 +29,7 @@ class ADWINPredictor(AnalyserPredictor):
     def retrain_period(self):
         return 5
 
-    def fit(self):
+    async def fit(self):
         for identifier in self.detectors:
             detector = self.detectors[identifier]
             if ((detector.width > 0) and
@@ -42,15 +42,15 @@ class ADWINPredictor(AnalyserPredictor):
                     if delta >= self.drift_rate_down * 0.1:
                         self.detectors[identifier].delta = delta
                         logger.debug(f"delta down to {delta} on {identifier} with rate {drift_rate}")
+                        self.last_rate[identifier] = drift_rate
                 elif drift_rate <= self.drift_rate_down:
                     delta = detector.delta * 10
                     if delta <= self.drift_rate_up * 10:
                         self.detectors[identifier].delta = delta
                         logger.debug(f"delta up to {delta} on {identifier} with rate {drift_rate}")
-                self.last_rate[identifier] = drift_rate
 
 
-    def predict(self, X: PredictionData) -> bool:
+    async def predict(self, X: PredictionData) -> bool:
         detector = self.detectors.get(X.identifier, ADWIN(self.delta))
         self.detectors[X.identifier] = detector
         detector.add_element(X.data["sensor"])

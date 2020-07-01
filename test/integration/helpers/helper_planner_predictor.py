@@ -12,7 +12,7 @@ class HelperPlannerPredictor(PlannerPredictor):
         return 1
 
     async def predict(self):
-        data = await self.connection.get(
+        data = await self.connection.get_between(
             datetime(1970, 1, 1), datetime.utcnow())
         result = []
         if not data.empty:

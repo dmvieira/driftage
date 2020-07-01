@@ -45,7 +45,7 @@ class StoreNewData(OneShotBehaviour):
         :return: [description]
         :rtype: bool
         """
-        return self.agent.predictor.predict(data)
+        return await self.agent.predictor.predict(data)
 
     async def _store(self, data: PredictionData, prediction: bool):
         """[summary]

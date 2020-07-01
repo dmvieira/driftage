@@ -9,5 +9,5 @@ class TrainPredictor(PeriodicBehaviour):
     async def run(self):
         """[summary]
         """
-        self.agent.predictor.fit()
+        await self.agent.predictor.fit()
         self._logger.debug("Analyser model fitted")
