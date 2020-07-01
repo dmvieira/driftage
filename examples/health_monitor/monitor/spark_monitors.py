@@ -36,7 +36,8 @@ class MonitorManager():
 
         self.monitors = []
         for identifier in ROWS:
-            monitor = Monitor("monitor@localhost", os.environ["MONITOR_PASSWORD"], identifier)
+            monitor = Monitor("monitor@localhost",
+                              os.environ["MONITOR_PASSWORD"], identifier)
             monitor.start()
 
             self.monitors.append(monitor)
@@ -45,10 +46,12 @@ class MonitorManager():
             print("Waiting all monitors alive")
         while not all([bool(m.available_contacts) for m in self.monitors]):
             time.sleep(1)
-            print(f"Waiting analysers connected {[len(m.available_contacts) for m in self.monitors]}")
+            print(
+                "Waiting analysers connected "
+                f"{[len(m.available_contacts) for m in self.monitors]}")
         print("All monitors alive, starting...")
         return True
-        
+
     def process(self, row):
         for monitor in self.monitors:
             monitor(
@@ -65,6 +68,7 @@ class MonitorManager():
                 time.sleep(1)
             monitor.stop()
         logger.info("All monitors stopped!")
+
 
 spark = SparkSession \
     .builder \

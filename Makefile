@@ -6,7 +6,7 @@ setup:
 	@pip install -r doc/requirements.txt
 
 lint:
-	@flake8 driftage test
+	@flake8 driftage test examples
 
 test:
 	@pytest --ignore="test/integration"

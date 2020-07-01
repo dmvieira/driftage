@@ -72,16 +72,17 @@ class Connection:
         :rtype: pd.DataFrame
         """
         selectable = select([table]).where(
-            (table.c.driftage_datetime > from_datetime) &
-            (table.c.driftage_datetime < to_datetime)
+            (table.c.driftage_datetime > str(from_datetime)) &
+            (table.c.driftage_datetime < str(to_datetime))
         )
-        query = str(selectable.compile(self._conn))
+        select_obj = selectable.compile(self._conn,
+                                        compile_kwargs={"literal_binds": True})
+        query = str(select_obj)
         try:
             return pd.read_sql_query(
                 sql=query,
                 con=self._conn,
-                parse_dates=[table.c.driftage_datetime.name],
-                params=[from_datetime, to_datetime]
+                parse_dates=[table.c.driftage_datetime.name]
             )
             self._logger.debug(f"Query executed: {query}")
         except (OperationalError, KeyError) as e:

@@ -33,6 +33,5 @@ class TestConnection(TestCase):
         pd_mock.read_sql_query.assert_called_with(
             con=self.engine,
             parse_dates=[table.c.driftage_datetime.name],
-            sql=str(select_mock().where().compile()),
-            params=[from_dt, to_dt]
+            sql=str(select_mock().where().compile())
         )

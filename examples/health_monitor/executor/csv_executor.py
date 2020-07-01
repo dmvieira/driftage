@@ -1,4 +1,5 @@
 import os
+import time
 import logging
 from driftage.executor import Executor
 from driftage.executor.sink import Sink
@@ -8,11 +9,12 @@ handler = logging.StreamHandler()
 logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
 
+
 class CsvSink(Sink):
 
     def __init__(self, path: str):
         self.path = path
-        super()__init__(is_available_cache_ttl=30)
+        super().__init__(is_available_cache_ttl=30)
 
     def is_available(self) -> bool:
         try:
@@ -24,9 +26,11 @@ class CsvSink(Sink):
             return False
 
     async def drain(self, data: dict):
+        logger.debug(f"Writing data: {data} to {self.path}")
         with open(self.path, "a") as f:
             f.write(
-                f"{data['timestamp']} {data['identifier']}, {data['predicted']}\n"
+                f"{data['timestamp']} {data['identifier']}, "
+                f"{data['predicted']}\n"
             )
 
 

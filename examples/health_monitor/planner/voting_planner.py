@@ -1,6 +1,8 @@
 import os
+import time
 import logging
-from datetime import datetime, timedelta
+from typing import List
+from datetime import datetime
 from driftage.planner import Planner
 from driftage.planner.predictor import PlannerPredictor, PredictResult
 from driftage.db.connection import Connection
@@ -12,8 +14,10 @@ handler = logging.StreamHandler()
 logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
 
+
 class VotingPredictor(PlannerPredictor):
 
+    last_time = datetime.utcnow()
     voting_threashold = 2
 
     @property
@@ -22,7 +26,8 @@ class VotingPredictor(PlannerPredictor):
 
     async def predict(self) -> List[PredictResult]:
         now = datetime.utcnow()
-        df = await self.connection.get_between(now - timedelta(seconds=5), now)
+        df = await self.connection.get_between(self.last_time, now)
+        self.last_time = now
         result = []
         if df.empty:
             return result
@@ -40,8 +45,8 @@ class VotingPredictor(PlannerPredictor):
             voting_counter += bool(prediction)
         if voting_counter < self.voting_threashold:
             result = []
+        logger.debug(f"Sending Result {result}")
         return result
-
 
 
 engine = create_engine(os.environ["KB_CONNECTION_STRING"])
@@ -53,7 +58,6 @@ planner = Planner(
     "planner@localhost",
     os.environ["PLANNER_PASSWORD"],
     predictor,
-    connection,
     ["executor@localhost"])
 
 logger.info("Waiting Ejabberd...")
@@ -62,8 +66,10 @@ while not planner.is_alive():
     logger.info("Starting planner...")
     planner.start()
     time.sleep(1)
-    while not all([contact.get("presence", False) for contact in planner.presence.get_contacts().values()]):
-        analyser.stop()
+    condition = [contact.get("presence", False)
+                 for contact in planner.presence.get_contacts().values()]
+    while not all(condition):
+        planner.stop()
         logger.info("Waiting executors...")
         time.sleep(1)
 

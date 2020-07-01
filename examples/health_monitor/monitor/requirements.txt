@@ -1,2 +1,2 @@
 pyspark==3.0.0
-driftage>=0.0.4
+driftage>=0.0.5
