@@ -49,7 +49,7 @@ class TestPlannerExecutorIntegration(TestCase):
         self.executor.start()
         await asyncio.sleep(2)
         self.planner.start()
-        await asyncio.sleep(2)
+        await asyncio.sleep(3)
         self.sink.external.assert_called_with(
             {
                 "timestamp": now.timestamp(),

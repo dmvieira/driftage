@@ -59,15 +59,16 @@ class MonitorManager():
             )
 
     def close(self, error):
-        logger.info("Closing all monitors")
+        print("Closing all monitors...")
         if error:
-            logger.error(f"Got error {error}")
+            print(f"Got error {error}")
         for monitor in self.monitors:
             while not all([b.is_done() for b in monitor.behaviours]):
-                logger.info("Waiting monitors stop to send...")
+                left = sum([not b.is_done() for b in monitor.behaviours])
+                print(f"Waiting monitors stop to send... {left} left")
                 time.sleep(1)
             monitor.stop()
-        logger.info("All monitors stopped!")
+        print("All monitors stopped!")
 
 
 spark = SparkSession \

@@ -29,7 +29,7 @@ class CsvSink(Sink):
         logger.debug(f"Writing data: {data} to {self.path}")
         with open(self.path, "a") as f:
             f.write(
-                f"{data['timestamp']} {data['identifier']}, "
+                f"{data['timestamp']}, {data['identifier']}, "
                 f"{data['predicted']}\n"
             )
 

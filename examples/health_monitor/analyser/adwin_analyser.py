@@ -75,7 +75,7 @@ analyser = Analyser(  # nosec
     ["monitor@localhost"])
 
 logger.info("Waiting Ejabberd...")
-time.sleep(10)
+time.sleep(20)
 while not analyser.is_alive():
     logger.info("Starting analyser...")
     analyser.start()

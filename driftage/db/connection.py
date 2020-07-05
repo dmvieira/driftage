@@ -2,7 +2,6 @@ import pandas as pd
 from datetime import datetime
 from sqlalchemy.engine import Engine
 from sqlalchemy.sql import select
-from sqlalchemy.exc import OperationalError
 from aiobreaker import CircuitBreaker
 
 from driftage.db.schema import table
@@ -85,6 +84,6 @@ class Connection:
                 parse_dates=[table.c.driftage_datetime.name]
             )
             self._logger.debug(f"Query executed: {query}")
-        except (OperationalError, KeyError) as e:
+        except Exception as e:
             self._logger.exception(e)
             return pd.DataFrame()

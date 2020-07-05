@@ -22,15 +22,19 @@ class VotingPredictor(PlannerPredictor):
 
     @property
     def predict_period(self):
-        return 5
+        return 30
 
     async def predict(self) -> List[PredictResult]:
         now = datetime.utcnow()
+        logger.debug(
+            f"Starting prediction from dates {self.last_time} and {now}")
         df = await self.connection.get_between(self.last_time, now)
-        self.last_time = now
         result = []
         if df.empty:
             return result
+
+        self.last_time = now
+
         columns = [
             table.c.driftage_identifier.name, table.c.driftage_predicted.name]
         drifts = df[columns].groupby(

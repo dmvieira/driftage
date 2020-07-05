@@ -1,2 +1,2 @@
-driftage>=0.0.5
+driftage>=0.0.6
 psycopg2==2.8.5

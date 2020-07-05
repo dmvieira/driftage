@@ -31,5 +31,7 @@ ejabberd:
 	@docker-compose -f examples/health_monitor/docker-compose.yml up --build -d ejabberd
 
 example:
+	@mkdir -p examples/health_monitor/build/timescaledb
+	@mkdir -p examples/health_monitor/build/executor
 	@docker-compose -f examples/health_monitor/docker-compose.yml down
 	@docker-compose -f examples/health_monitor/docker-compose.yml up --build
