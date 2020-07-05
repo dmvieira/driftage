@@ -32,7 +32,7 @@ One example for each kind of agent was implemented:
 * `Csv Executor <https://github.com/dmvieira/driftage/tree/master/examples/health_monitor/executor>`_: as an executor that validates if filesystem is ok and saves detected Concept Drift.
 
 As Knowledge Base `TimescaleDB <https://www.timescale.com/>`_ was choose because it is full compatible with 
-SQLAlchemy used in :doc:`connection adapter <driftage.analyser>` and handle timeseries data very well.
+SQLAlchemy used in :doc:`connection adapter <driftage.kb>` and handle timeseries data very well.
 
 The full example can be executed using `Docker Compose <https://docs.docker.com/compose/install/>`_ following these 3 steps:
 
@@ -44,6 +44,6 @@ The full example can be executed using `Docker Compose <https://docs.docker.com/
 ::
     make example
 
-3. Wait until executor logs that wrote date and take a look on the file with drifts:
+3. Wait until executor logs that already wrote drift and take a look on the file with drifts:
 ::
     cat example/health_monitor/build/executor/output.csv
