@@ -47,3 +47,5 @@ The full example can be executed using `Docker Compose <https://docs.docker.com/
 3. Wait until executor logs that already wrote drift and take a look on the file with drifts:
 ::
     cat example/health_monitor/build/executor/output.csv
+
+For more details, take a loop at :doc:`api`.
