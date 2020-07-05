@@ -21,8 +21,10 @@ class CsvSink(Sink):
             with open("/tmp/test", "w") as test:  # nosec
                 test.write("test")
             os.remove("/tmp/test")  # nosec
+            logger.debug("Filesystem is ok to write")
             return True
-        except Exception:
+        except Exception as e:
+            logger.debug(f"Error writing to filesystem {e}")
             return False
 
     async def drain(self, data: dict):

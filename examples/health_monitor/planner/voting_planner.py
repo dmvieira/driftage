@@ -47,7 +47,7 @@ class VotingPredictor(PlannerPredictor):
                 PredictResult(identifier, prediction, bool(prediction))
             )
             voting_counter += bool(prediction)
-        if voting_counter < self.voting_threashold:
+        if voting_counter <= self.voting_threashold:
             result = []
         logger.debug(f"Sending Result {result}")
         return result
