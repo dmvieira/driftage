@@ -40,3 +40,5 @@ Receives from Planner new Drifts and send to a custom Sink. It can be a `Apache 
 -----------------------------------
 Store data collected and predicted by :doc:`driftage.analyser` can be queried by 
 :doc:`driftage.analyser` for retraining or :doc:`driftage.planner` for predictions.
+
+If you want to know how more how is structured Driftage, take a look at :doc:`dataflow` and :doc:`sequence_diagram`.
