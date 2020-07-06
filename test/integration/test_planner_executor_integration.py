@@ -58,6 +58,14 @@ class TestPlannerExecutorIntegration(TestCase):
             }
         )
 
+    async def test_should_not_export_to_sink_if_unavailable(self):
+        self.executor.start()
+        self.executor.sink.available = False
+        await asyncio.sleep(2)
+        self.planner.start()
+        await asyncio.sleep(3)
+        self.sink.external.assert_not_called()
+
     async def test_should_continualy_export_to_sink(self):
         self.executor.start()
         await asyncio.sleep(2)

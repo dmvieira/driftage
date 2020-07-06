@@ -43,5 +43,4 @@ class Executor(Agent):
         """
         self.presence.approve_all = True
         self.add_behaviour(ReceiveNewData())
-        self.presence.set_available()
         self._logger.info("Executor started")

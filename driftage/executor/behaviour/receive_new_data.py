@@ -11,6 +11,10 @@ class ReceiveNewData(CyclicBehaviour):
     async def run(self):
         """[summary]
         """
+        if self.agent.sink.is_available():
+            self.presence.set_available()
+        else:
+            self.presence.set_unavailable()
         msg = await self.receive(timeout=10)
         if msg:
             self.agent.add_behaviour(SendNewData(), Template(body=msg.body))
