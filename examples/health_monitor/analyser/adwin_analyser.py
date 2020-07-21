@@ -39,8 +39,8 @@ class ADWINPredictor(AnalyserPredictor):
                 drift_rate = detector.n_detections / detector.width
                 if ((self.last_rate.get(identifier, 0) <= drift_rate) and
                         (drift_rate >= self.drift_rate_up)):
-                    delta = detector.delta * 0.1
-                    if delta >= self.drift_rate_down * 0.1:
+                    delta = detector.delta / 10
+                    if delta >= self.drift_rate_down:
                         self.detectors[identifier].delta = delta
                         logger.debug(
                             f"delta down to {delta} on {identifier}"
@@ -48,11 +48,12 @@ class ADWINPredictor(AnalyserPredictor):
                         self.last_rate[identifier] = drift_rate
                 elif drift_rate <= self.drift_rate_down:
                     delta = detector.delta * 10
-                    if delta <= self.drift_rate_up * 10:
+                    if delta <= self.drift_rate_up:
                         self.detectors[identifier].delta = delta
                         logger.debug(
                             f"delta up to {delta} on {identifier}"
                             f" with rate {drift_rate}")
+                        self.last_rate[identifier] = drift_rate
 
     async def predict(self, X: PredictionData) -> bool:
         detector = self.detectors.get(X.identifier, ADWIN(self.delta))
