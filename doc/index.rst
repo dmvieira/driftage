@@ -34,8 +34,8 @@ Diftage is a modular multi-agent framework to detect concept drifts from batch o
 **Status & Coverage & License**
 
 
-.. image:: https://travis-ci.org/dmvieira/driftage.svg?branch=master
-   :target: https://travis-ci.org/dmvieira/driftage
+.. image:: https://travis-ci.com/dmvieira/driftage.svg?branch=master
+   :target: https://travis-ci.com/dmvieira/driftage
    :alt: Build Status
 
 
