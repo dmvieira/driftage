@@ -1,5 +1,6 @@
 import pandas as pd
 import asyncio
+from freezegun import freeze_time
 from datetime import datetime
 from asynctest import TestCase, Mock, CoroutineMock, patch
 from driftage.db.connection import Connection
@@ -11,7 +12,8 @@ class TestConnection(TestCase):
         self.engine = Mock()
         self.connection = Connection(
             self.engine,
-            10
+            10,
+            0.9
         )
 
     async def test_should_not_insert_with_less_than_bulk_size(self):
@@ -19,8 +21,23 @@ class TestConnection(TestCase):
         self.connection._insert = CoroutineMock()
         await self.connection.lazy_insert(df)
         self.connection._insert.assert_not_awaited()
+
+    async def test_should_insert_with_equal_more_than_bulk_size(self):
+        df = pd.DataFrame([1, 2, 3, 4, 5])
+        self.connection._insert = CoroutineMock()
+        await self.connection.lazy_insert(df)
         await self.connection.lazy_insert(df)
         self.connection._insert.assert_awaited_once_with()
+
+    async def test_should_insert_with_less_than_bulk_size_but_more_than_time(
+            self):
+        df = pd.DataFrame([1, 2, 3, 4, 5])
+        self.connection._insert = CoroutineMock()
+        initial_datetime = datetime.now()
+        with freeze_time(initial_datetime) as frozen_datetime:
+            frozen_datetime.tick()
+            await self.connection.lazy_insert(df)
+            self.connection._insert.assert_awaited_once_with()
 
     @patch("driftage.db.connection.pd")
     @patch("driftage.db.connection.select")

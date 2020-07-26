@@ -1,5 +1,6 @@
 import asyncio
 import os
+import time
 from datetime import datetime
 from asynctest import TestCase
 from sqlalchemy import create_engine
@@ -20,7 +21,7 @@ class TestMonitorAnalyseIntegration(TestCase):
         self.engine = create_engine("sqlite:///database.sql")
         self.breaker = CircuitBreaker()
         self.connection = Connection(
-            self.engine, 10, self.breaker)
+            self.engine, 10, 10000, self.breaker)
         self.predictor = HelperAnalyserPredictor(self.connection)
         self.analyser = Analyser(
             "analyser@localhost",
@@ -46,7 +47,7 @@ class TestMonitorAnalyseIntegration(TestCase):
         for i in range(10):
             self.monitor({"my data": i})
         dt_to = datetime.utcnow()
-        await asyncio.sleep(1)
+        time.sleep(1)
         df = await self.connection.get_between(dt_from, dt_to)
         self.assertEqual(len(df.index), 10)
 
@@ -56,6 +57,6 @@ class TestMonitorAnalyseIntegration(TestCase):
         for i in range(9):
             self.monitor({"my data": i})
         dt_to = datetime.utcnow()
-        await asyncio.sleep(1)
+        time.sleep(1)
         df = await self.connection.get_between(dt_from, dt_to)
         self.assertEqual(len(df.index), 0)

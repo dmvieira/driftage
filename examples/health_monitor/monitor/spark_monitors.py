@@ -57,6 +57,7 @@ class MonitorManager():
             monitor(
                 dict(sensor=row[monitor._identifier])
             )
+        time.sleep(0.001)  # simulating milisseconds
 
     def close(self, error):
         print("Closing all monitors...")

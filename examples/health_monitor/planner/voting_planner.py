@@ -18,11 +18,12 @@ logger.setLevel(logging.DEBUG)
 class VotingPredictor(PlannerPredictor):
 
     last_time = datetime.utcnow()
-    voting_threashold = 2
+    voting_low_threashold = 2
+    voting_high_threashold = 8
 
     @property
     def predict_period(self):
-        return 30
+        return 1.5
 
     async def predict(self) -> List[PredictResult]:
         now = datetime.utcnow()
@@ -47,7 +48,8 @@ class VotingPredictor(PlannerPredictor):
                 PredictResult(identifier, prediction, bool(prediction))
             )
             voting_counter += bool(prediction)
-        if voting_counter <= self.voting_threashold:
+        if ((self.voting_low_threashold >= voting_counter) or
+                (voting_counter >= self.voting_high_threashold)):
             result = []
         logger.debug(f"Sending Result {result}")
         return result
@@ -55,7 +57,7 @@ class VotingPredictor(PlannerPredictor):
 
 engine = create_engine(os.environ["KB_CONNECTION_STRING"])
 
-connection = Connection(engine, bulk_size=10)
+connection = Connection(engine, bulk_size=10, bulk_time=1)
 predictor = VotingPredictor(connection)
 
 planner = Planner(  # nosec

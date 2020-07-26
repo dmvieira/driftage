@@ -28,14 +28,14 @@ class PredictResult:
 class PlannerPredictor(Predictor):
 
     @abstractproperty
-    def predict_period(self) -> int:
+    def predict_period(self) -> Union[float, int]:
         """Predict time period (in seconds).
         This property defines how long PlannerPredictor will wait
         until next predict call.
 
         :raises NotImplementedError:  Need to be implemented when override
         :return: Time to wait for predict in seconds
-        :rtype: int
+        :rtype: Union[float, int]
         """
         raise NotImplementedError
 

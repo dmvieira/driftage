@@ -22,7 +22,7 @@ class TestPlannerExecutorIntegration(TestCase):
         self.engine = create_engine("sqlite:///test/resources/database.dump")
         self.breaker = CircuitBreaker()
         self.connection = Connection(
-            self.engine, 10, self.breaker)
+            self.engine, 10, 10000, self.breaker)
         self.sink = HelperSink(self.breaker)
         self.sink.external.reset_mock()
         self.executor = Executor("executor@localhost", "passw0rd", self.sink)

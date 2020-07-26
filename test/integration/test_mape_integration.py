@@ -1,5 +1,6 @@
 import asyncio
 import os
+import time
 from datetime import datetime
 from asynctest import TestCase, patch
 from sqlalchemy import create_engine
@@ -26,7 +27,7 @@ class TestMAPEIntegration(TestCase):
         self.breaker = CircuitBreaker()
         self.cache_to_save = 10
         self.connection = Connection(
-            self.engine, self.cache_to_save, self.breaker)
+            self.engine, self.cache_to_save, 100000, self.breaker)
         self.analyser_predictor = HelperAnalyserPredictor(self.connection)
         self.sink = HelperSink(self.breaker)
         self.sink.external.reset_mock()
@@ -68,7 +69,7 @@ class TestMAPEIntegration(TestCase):
         mock_dt.utcnow.return_value = now
         for i in range(self.cache_to_save):
             self.monitor({"my data": i})
-        await asyncio.sleep(1)
+        time.sleep(1)
         self.sink.external.assert_called_once_with(
             {
                 'timestamp': now.timestamp(),

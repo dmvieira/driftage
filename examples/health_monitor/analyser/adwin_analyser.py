@@ -65,7 +65,7 @@ class ADWINPredictor(AnalyserPredictor):
 
 engine = create_engine(os.environ["KB_CONNECTION_STRING"])
 
-connection = Connection(engine, bulk_size=1000)
+connection = Connection(engine, bulk_size=1000, bulk_time=1)
 predictor = ADWINPredictor(connection)
 
 analyser = Analyser(  # nosec
