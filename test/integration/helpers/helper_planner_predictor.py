@@ -13,6 +13,7 @@ class HelperPlannerPredictor(PlannerPredictor):
 
     async def predict(self):
         data = await self.connection.get_between(
+            table.c.driftage_datetime_monitored,
             datetime(1970, 1, 1), datetime.utcnow())
         result = []
         if not data.empty:

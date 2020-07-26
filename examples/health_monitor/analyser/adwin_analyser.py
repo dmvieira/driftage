@@ -68,15 +68,17 @@ engine = create_engine(os.environ["KB_CONNECTION_STRING"])
 connection = Connection(engine, bulk_size=1000, bulk_time=1)
 predictor = ADWINPredictor(connection)
 
+my_number = os.environ["MY_NUMBER"]
+
 analyser = Analyser(  # nosec
-    "analyser@localhost",
+    f"analyser_{my_number}@localhost",
     os.environ["ANALYSER_PASSWORD"],
     predictor,
     connection,
-    ["monitor@localhost"])
+    [f"monitor_{my_number}@localhost"])
 
 logger.info("Waiting Ejabberd...")
-time.sleep(20)
+time.sleep(30)
 while not analyser.is_alive():
     logger.info("Starting analyser...")
     analyser.start()

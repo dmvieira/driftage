@@ -9,6 +9,7 @@ from aiobreaker import CircuitBreaker
 from driftage.monitor import Monitor
 from driftage.analyser import Analyser
 from driftage.db.connection import Connection
+from driftage.db.schema import table
 
 from test.integration.helpers.helper_analyser_predictor import (
     HelperAnalyserPredictor)
@@ -48,7 +49,8 @@ class TestMonitorAnalyseIntegration(TestCase):
             self.monitor({"my data": i})
         dt_to = datetime.utcnow()
         time.sleep(1)
-        df = await self.connection.get_between(dt_from, dt_to)
+        df = await self.connection.get_between(
+            table.c.driftage_datetime_monitored, dt_from, dt_to)
         self.assertEqual(len(df.index), 10)
 
     async def test_should_not_save_monitored_data_less_than_bulk(self):
@@ -58,5 +60,6 @@ class TestMonitorAnalyseIntegration(TestCase):
             self.monitor({"my data": i})
         dt_to = datetime.utcnow()
         time.sleep(1)
-        df = await self.connection.get_between(dt_from, dt_to)
+        df = await self.connection.get_between(
+            table.c.driftage_datetime_monitored, dt_from, dt_to)
         self.assertEqual(len(df.index), 0)

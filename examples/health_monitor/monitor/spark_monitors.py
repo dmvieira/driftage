@@ -35,8 +35,8 @@ class MonitorManager():
     def open(self, partition_id, epoch_id):
 
         self.monitors = []
-        for identifier in ROWS:
-            monitor = Monitor("monitor@localhost",  # nosec
+        for key, identifier in enumerate(ROWS):
+            monitor = Monitor(f"monitor_{key}@localhost",  # nosec
                               os.environ["MONITOR_PASSWORD"], identifier)
             monitor.start()
 

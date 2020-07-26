@@ -41,7 +41,9 @@ class TestStoreNewData(TestCase):
                 table.c.driftage_jid.name: {0: "my agent"},
                 table.c.driftage_data.name: {0: str(
                     orjson.dumps(self.body["data"]), "utf-8")},
-                table.c.driftage_datetime.name: {
+                table.c.driftage_datetime_monitored.name: {
+                    0: Timestamp(1989, 8, 12)},
+                table.c.driftage_datetime_analysed.name: {
                     0: Timestamp(1989, 8, 12)},
                 table.c.driftage_identifier.name: {0: "my data"},
                 table.c.driftage_predicted.name: {

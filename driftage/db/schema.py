@@ -6,7 +6,10 @@ DRIFTAGE_TABLENAME = environ.get("DRIFTAGE_TABLENAME", "driftage_kb")
 
 table = Table(DRIFTAGE_TABLENAME, MetaData(),
               Column('driftage_jid', String, primary_key=True),
-              Column('driftage_datetime', DateTime, primary_key=True),
+              Column(
+                  'driftage_datetime_monitored', DateTime, primary_key=True),
+              Column(
+                  'driftage_datetime_analysed', DateTime, primary_key=True),
               Column('driftage_identifier', String, primary_key=True),
               Column('driftage_data', PickleType),
               Column('driftage_predicted', Boolean)

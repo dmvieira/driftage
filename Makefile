@@ -28,7 +28,7 @@ doc:
 	@sphinx-build -b html doc doc/_build/html
 
 ejabberd:
-	-@docker rmi -f healthmonitor_ejabberd
+	@-docker rmi -f healthmonitor_ejabberd
 	@docker-compose -f examples/health_monitor/docker-compose.yml up --build -d ejabberd
 
 example:

@@ -23,7 +23,8 @@ Definitions from table where predicted drifts are stored:
 
     Columns:
         - **driftage_jid**: ID from Analyser that predicted and saved data
-        - **driftage_datetime**: Datetime of collected data
+        - **driftage_datetime_monitored**: Datetime of collected data
+        - **driftage_datetime_analysed**: Datetime of analysed data
         - **driftage_identifier**: Identifier from monitor that collected data 
         - **driftage_data**: Json type object from data collected
         - **driftage_predicted**: True or False depending if data is drift or not

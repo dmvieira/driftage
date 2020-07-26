@@ -61,7 +61,8 @@ class StoreNewData(OneShotBehaviour):
                 table.c.driftage_jid.name: [self.agent.name],
                 table.c.driftage_data.name: [
                     str(orjson.dumps(data.data), "utf-8")],
-                table.c.driftage_datetime.name: [data.timestamp],
+                table.c.driftage_datetime_monitored.name: [data.timestamp],
+                table.c.driftage_datetime_analysed.name: [datetime.utcnow()],
                 table.c.driftage_identifier.name: [data.identifier],
                 table.c.driftage_predicted.name: [prediction]
             }

@@ -1,6 +1,7 @@
 import pandas as pd
 from typing import Union
 from datetime import datetime
+from sqlalchemy import Column
 from sqlalchemy.engine import Engine
 from sqlalchemy.sql import select
 from aiobreaker import CircuitBreaker
@@ -70,10 +71,13 @@ class Connection:
 
     async def get_between(
             self,
+            column: Column,
             from_datetime: datetime,
             to_datetime: datetime) -> pd.DataFrame:
         """Get data between dates from database.
 
+        :param column: Database column from schema
+        :type column: Column
         :param from_datetime: Start Datetime to search
         :type from_datetime: datetime
         :param to_datetime: End Datetime to search
@@ -82,8 +86,8 @@ class Connection:
         :rtype: pd.DataFrame
         """
         selectable = select([table]).where(
-            (table.c.driftage_datetime > str(from_datetime)) &
-            (table.c.driftage_datetime < str(to_datetime))
+            (column > str(from_datetime)) &
+            (column < str(to_datetime))
         )
         select_obj = selectable.compile(self._conn,
                                         compile_kwargs={"literal_binds": True})
@@ -92,7 +96,10 @@ class Connection:
             return pd.read_sql_query(
                 sql=query,
                 con=self._conn,
-                parse_dates=[table.c.driftage_datetime.name]
+                parse_dates=[
+                    table.c.driftage_datetime_monitored.name,
+                    table.c.driftage_datetime_analysed.name
+                ]
             )
             self._logger.debug(f"Query executed: {query}")
         except Exception as e:

@@ -25,10 +25,11 @@ services:
     depends_on:
       - ejabberd
     network_mode: "host"
-  analyser:
+  analyser_0:
     build: analyser/
-    container_name: "adwin-analyser-driftage"
+    container_name: "adwin-analyser-driftage-0"
     environment:
+      - MY_NUMBER=0
       - ANALYSER_PASSWORD=passw0rd
       - KB_CONNECTION_STRING=postgres://agents:passw0rd@localhost:5432/driftage_kb
     depends_on:
@@ -36,6 +37,90 @@ services:
       - monitor
       - timescaledb
     network_mode: "host"
+  analyser_1:
+    build: analyser/
+    container_name: "adwin-analyser-driftage-1"
+    environment:
+      - MY_NUMBER=1
+      - ANALYSER_PASSWORD=passw0rd
+      - KB_CONNECTION_STRING=postgres://agents:passw0rd@localhost:5432/driftage_kb
+    depends_on:
+      - ejabberd
+      - monitor
+      - timescaledb
+    network_mode: "host"
+  analyser_2:
+    build: analyser/
+    container_name: "adwin-analyser-driftage-2"
+    environment:
+      - MY_NUMBER=2
+      - ANALYSER_PASSWORD=passw0rd
+      - KB_CONNECTION_STRING=postgres://agents:passw0rd@localhost:5432/driftage_kb
+    depends_on:
+      - ejabberd
+      - monitor
+      - timescaledb
+    network_mode: "host"
+  analyser_3:
+    build: analyser/
+    container_name: "adwin-analyser-driftage-3"
+    environment:
+      - MY_NUMBER=3
+      - ANALYSER_PASSWORD=passw0rd
+      - KB_CONNECTION_STRING=postgres://agents:passw0rd@localhost:5432/driftage_kb
+    depends_on:
+      - ejabberd
+      - monitor
+      - timescaledb
+    network_mode: "host"
+  analyser_4:
+    build: analyser/
+    container_name: "adwin-analyser-driftage-4"
+    environment:
+      - MY_NUMBER=4
+      - ANALYSER_PASSWORD=passw0rd
+      - KB_CONNECTION_STRING=postgres://agents:passw0rd@localhost:5432/driftage_kb
+    depends_on:
+      - ejabberd
+      - monitor
+      - timescaledb
+    network_mode: "host"
+  analyser_5:
+    build: analyser/
+    container_name: "adwin-analyser-driftage-5"
+    environment:
+      - MY_NUMBER=5
+      - ANALYSER_PASSWORD=passw0rd
+      - KB_CONNECTION_STRING=postgres://agents:passw0rd@localhost:5432/driftage_kb
+    depends_on:
+      - ejabberd
+      - monitor
+      - timescaledb
+    network_mode: "host"
+  analyser_6:
+    build: analyser/
+    container_name: "adwin-analyser-driftage-6"
+    environment:
+      - MY_NUMBER=6
+      - ANALYSER_PASSWORD=passw0rd
+      - KB_CONNECTION_STRING=postgres://agents:passw0rd@localhost:5432/driftage_kb
+    depends_on:
+      - ejabberd
+      - monitor
+      - timescaledb
+    network_mode: "host"
+  analyser_7:
+    build: analyser/
+    container_name: "adwin-analyser-driftage-7"
+    environment:
+      - MY_NUMBER=7
+      - ANALYSER_PASSWORD=passw0rd
+      - KB_CONNECTION_STRING=postgres://agents:passw0rd@localhost:5432/driftage_kb
+    depends_on:
+      - ejabberd
+      - monitor
+      - timescaledb
+    network_mode: "host"        
   planner:
     build: planner/
     container_name: "voting-planner-driftage"

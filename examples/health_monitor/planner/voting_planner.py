@@ -17,6 +17,7 @@ logger.setLevel(logging.DEBUG)
 
 class VotingPredictor(PlannerPredictor):
 
+    start_time = datetime.utcnow()
     last_time = datetime.utcnow()
     voting_low_threashold = 2
     voting_high_threashold = 8
@@ -29,7 +30,8 @@ class VotingPredictor(PlannerPredictor):
         now = datetime.utcnow()
         logger.debug(
             f"Starting prediction from dates {self.last_time} and {now}")
-        df = await self.connection.get_between(self.last_time, now)
+        df = await self.connection.get_between(
+            table.c.driftage_datetime_analysed, self.last_time, now)
         result = []
         if df.empty:
             return result
@@ -38,7 +40,9 @@ class VotingPredictor(PlannerPredictor):
 
         columns = [
             table.c.driftage_identifier.name, table.c.driftage_predicted.name]
-        drifts = df[columns].groupby(
+        drifts = df[
+            table.c.driftage_datetime_monitored > self.start_time
+        ][columns].groupby(
             table.c.driftage_identifier.name).sum().to_dict()
         drift_prediction = drifts[table.c.driftage_predicted.name]
 
@@ -67,7 +71,7 @@ planner = Planner(  # nosec
     ["executor@localhost"])
 
 logger.info("Waiting Ejabberd...")
-time.sleep(10)
+time.sleep(25)
 while not planner.is_alive():
     logger.info("Starting planner...")
     planner.start()

@@ -42,7 +42,7 @@ executor = Executor(  # nosec
     CsvSink("/tmp/output.csv"))
 
 logger.info("Waiting Ejabberd...")
-time.sleep(10)
+time.sleep(25)
 executor.start()
 while not executor.is_alive():
     logger.info("Starting executor...")
