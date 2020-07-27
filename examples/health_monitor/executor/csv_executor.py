@@ -1,6 +1,7 @@
 import os
 import time
 import logging
+from datetime import datetime
 from driftage.executor import Executor
 from driftage.executor.sink import Sink
 
@@ -29,10 +30,11 @@ class CsvSink(Sink):
 
     async def drain(self, data: dict):
         logger.debug(f"Writing data: {data} to {self.path}")
+        now = datetime.utcnow()
         with open(self.path, "a") as f:
             f.write(
                 f"{data['timestamp']}, {data['identifier']}, "
-                f"{data['predicted']}\n"
+                f"{data['predicted']}, {now}\n"
             )
 
 

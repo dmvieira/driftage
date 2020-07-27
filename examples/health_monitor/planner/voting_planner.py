@@ -19,12 +19,12 @@ class VotingPredictor(PlannerPredictor):
 
     start_time = datetime.utcnow()
     last_time = datetime.utcnow()
-    voting_low_threashold = 2
+    voting_low_threashold = 3
     voting_high_threashold = 8
 
     @property
     def predict_period(self):
-        return 1.5
+        return 5
 
     async def predict(self) -> List[PredictResult]:
         now = datetime.utcnow()
@@ -40,9 +40,11 @@ class VotingPredictor(PlannerPredictor):
 
         columns = [
             table.c.driftage_identifier.name, table.c.driftage_predicted.name]
-        drifts = df[
-            table.c.driftage_datetime_monitored > self.start_time
-        ][columns].groupby(
+
+        from_now_df = df[
+            df[table.c.driftage_datetime_monitored.name] > self.start_time
+        ]
+        drifts = from_now_df[columns].groupby(
             table.c.driftage_identifier.name).sum().to_dict()
         drift_prediction = drifts[table.c.driftage_predicted.name]
 

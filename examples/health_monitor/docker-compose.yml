@@ -7,8 +7,6 @@ services:
       - POSTGRES_DB=driftage_kb
       - POSTGRES_USER=agents
       - POSTGRES_PASSWORD=passw0rd
-    volumes:
-      - ./build/timescaledb:/var/lib/postgresql/data
     ports:
       - 5432:5432
   ejabberd:
