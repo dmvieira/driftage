@@ -18,6 +18,6 @@ Now you can build your own :doc:`driftage.monitor`,
 :doc:`driftage.analyser`, :doc:`driftage.planner` 
 and :doc:`driftage.executor` using :doc:`driftage.kb`.
 
-There's an :doc:`example <example>` detecting muscle voltage chenges that you can follow.
+There's an :doc:`example <example>` of detecting muscle voltage chenges which that you can follow.
 
-If you want to know how more how is structured Driftage, take a look at :doc:`dataflow` and :doc:`sequence_diagram`.
+If you want to know more about how Driftage is structured, take a look at the :doc:`dataflow` and :doc:`sequence_diagram` parts of this doc.

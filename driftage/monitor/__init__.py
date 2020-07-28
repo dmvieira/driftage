@@ -17,7 +17,7 @@ class Monitor(Subscriptor):
             identifier: Optional[str] = None,
             verify_security: bool = False
     ):
-        """Agent to collect data from sources and sent to Analyser.
+        """An Agent to collect data from sources and send to Analyser.
         This agent authenticates on XMPP server.
 
         :param jid: Id for XMPP authentication. Ex: user@localhost
@@ -41,7 +41,7 @@ class Monitor(Subscriptor):
         self._logger.info("Monitor started")
 
     def collect(self, data: dict):
-        """Callback to collect data to be send as dict.
+        """Callback to collect data to be sent as dict.
 
         :param data: Data to send
         :type data: dict

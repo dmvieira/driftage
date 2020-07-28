@@ -7,13 +7,13 @@ from driftage.base.predictor import Predictor
 
 @dataclass
 class PredictionData:
-    """Dataclass to stores data to predict.
+    """Dataclass to store data to predict.
 
-    :param data: Data that comes from Monitor.
+    :param data: Data that comes from the Monitor.
     :type data: dict
-    :param created_at: Datetime object that message was created.
+    :param created_at: Datetime object of when the message was created.
     :type created_at: datetime
-    :param identifier: Data identifier that comes from Monitor or any
+    :param identifier: Data identifier that comes from the Monitor or any
         identifier you want.
     :type identifier: str
     """
@@ -28,8 +28,8 @@ class AnalyserPredictor(Predictor):
         """Retrain time period (in seconds).
         This property defines how long AnalyserPredictor will wait
         until next fit call.
-        Retrain is optional and if returns None, fit method is
-        never called.
+        Retrain is optional and if it returns as None, fit method is
+        never called on.
 
         :return: Time to wait for retrain in seconds or None if no retrain
         :rtype: Optional[int]
@@ -50,8 +50,8 @@ class AnalyserPredictor(Predictor):
 
         :param X: Data to be predicted as Concept Drift
         :type X: PredictionData
-        :raises NotImplementedError: Need to be implemented when override
-        :return: Prediction for that PredictionData if is drift or not
+        :raises NotImplementedError: Needs to be implemented when overridden
+        :return: Prediction for whether PredictionData is a drift or not
         :rtype: bool
         """
         raise NotImplementedError

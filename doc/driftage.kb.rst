@@ -1,6 +1,6 @@
 Knowledge Base
 =========================
-Store data collected and predicted by :doc:`driftage.analyser` can be queried by 
+Stores data collected and predicted by the :doc:`driftage.analyser`. Can be queried by 
 :doc:`driftage.analyser` for retraining or :doc:`driftage.planner` for predictions.
 
 Connection
@@ -22,9 +22,9 @@ Definitions from table where predicted drifts are stored:
         **driftage_kb** or defined by *DRIFTAGE_TABLENAME* enviroment variable
 
     Columns:
-        - **driftage_jid**: ID from Analyser that predicted and saved data
+        - **driftage_jid**: ID from the Analyser that predicted and saved data
         - **driftage_datetime_monitored**: Datetime of collected data
         - **driftage_datetime_analysed**: Datetime of analysed data
-        - **driftage_identifier**: Identifier from monitor that collected data 
+        - **driftage_identifier**: Identifier from the Monitor that collected data 
         - **driftage_data**: Json type object from data collected
-        - **driftage_predicted**: True or False depending if data is drift or not
+        - **driftage_predicted**: True or False depending on if data is drift or not

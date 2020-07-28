@@ -18,8 +18,8 @@ class Sink:
         :param circuit_breaker: Circuit breaker to protect Sink if it's down,
             defaults to CircuitBreaker()
         :type circuit_breaker: CircuitBreaker, optional
-        :param is_available_cache_ttl: Healthcheck cache time to is_available
-            method in seconds, defaults to 1.0
+        :param is_available_cache_ttl: Healthcheck cache means the time to
+            is_available method in how many seconds, defaults to 1.0
         :type is_available_cache_ttl: Union[int, float], optional
         :param retry_config: Retry configuration to send data to Sink,
             defaults to RetryConfig()
@@ -33,7 +33,7 @@ class Sink:
     def is_available(self) -> bool:
         """Healthcheck function to know if Sink is available to receive data.
 
-        :raises NotImplementedError: Need to be implemented when override
+        :raises NotImplementedError: Needs to be implemented when overridden
         :return: True if it is available or False if not
         :rtype: bool
         """
@@ -41,11 +41,11 @@ class Sink:
 
     @abstractmethod
     async def drain(self, data: dict):
-        """Method that sends data to Sink.
-        This receives predicted data from Planner and send.
+        """Method that sends data to the Sink.
+        This receives predicted data from the Planner and sends it out.
 
         :param data: Predicted data with timestamp, predicted and identifier
         :type data: dict
-        :raises NotImplementedError: Need to be implemented when override
+        :raises NotImplementedError: Needs to be implemented when overridden
         """
         raise NotImplementedError

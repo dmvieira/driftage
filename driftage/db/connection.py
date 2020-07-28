@@ -17,7 +17,7 @@ class Connection:
             bulk_size: int,
             bulk_time: Union[int, float],
             circuit_breaker: CircuitBreaker = CircuitBreaker()):
-        """Connects with SQLAlchemy Engine to store and query for
+        """Connects with SQLAlchemy Engine to store and query
         data for concept drift datection.
 
         :param db_engine: SQLAlchemy Engine to use as backend
@@ -27,7 +27,7 @@ class Connection:
         :type bulk_size: int
         :param bulk_time: Time in seconds between last insert and now.
             If bulk_size is not reached in bulk_time interval,
-            them a insert was done
+            then an insert was done
         :type bulk_time: Union[int, float]
         :param circuit_breaker: Circuit Breaker configuration to
             connect with Database, defaults to CircuitBreaker()
@@ -57,7 +57,7 @@ class Connection:
         self._bulk_df = pd.DataFrame()
 
     async def lazy_insert(self, df: pd.DataFrame):
-        """Insert in database if bulk size reached.
+        """Insert in database if bulk size or bulk time reached.
 
         :param df: Data to be inserted
         :type df: pd.DataFrame
@@ -74,7 +74,7 @@ class Connection:
             column: Column,
             from_datetime: datetime,
             to_datetime: datetime) -> pd.DataFrame:
-        """Get data between dates from database.
+        """Collects data between dates from database.
 
         :param column: Database column from schema
         :type column: Column
@@ -82,7 +82,7 @@ class Connection:
         :type from_datetime: datetime
         :param to_datetime: End Datetime to search
         :type to_datetime: datetime
-        :return: Data got from date range specified
+        :return: Data got from specified date range
         :rtype: pd.DataFrame
         """
         selectable = select([table]).where(

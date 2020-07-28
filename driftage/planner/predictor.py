@@ -6,7 +6,7 @@ from driftage.base.predictor import Predictor
 
 @dataclass
 class PredictResult:
-    """Dataclass to stores each prediction,
+    """Dataclass to store each prediction,
     result and if this prediction should be sent to Executor.
 
     :param identifier: Data identifier that comes from Monitor or any
@@ -16,7 +16,7 @@ class PredictResult:
         even inform type of drift to Executor.
     :type predicted: Union[bool, str, int, float]
     :param should_send: If this prediction should be sent to Executor.
-        Sometimes your Planner can decide to don't send because of time or
+        Sometimes your Planner can decide to not send it because of time or
         other business rules.
     :type should_send: bool
     """
@@ -33,8 +33,8 @@ class PlannerPredictor(Predictor):
         This property defines how long PlannerPredictor will wait
         until next predict call.
 
-        :raises NotImplementedError:  Need to be implemented when override
-        :return: Time to wait for predict in seconds
+        :raises NotImplementedError:  Needs to be implemented when overridden
+        :return: Time it takes to wait for predict in seconds
         :rtype: Union[float, int]
         """
         raise NotImplementedError
@@ -42,10 +42,11 @@ class PlannerPredictor(Predictor):
     @abstractmethod
     async def predict(self) -> List[PredictResult]:
         """Using data stored on KB predicts if this data is a
-        Concept Drift of not to send or not to Executor.
+        Concept Drift of not, to then send or not to the Executor.
 
-        :raises NotImplementedError:  Need to be implemented when override
-        :return: Results predicted that should be send or not to Executor
+        :raises NotImplementedError:  Needs to be implemented when overridden
+        :return: Results predicted that should or shouldn't be sent to
+            the Executor
         :rtype: List[PredictResult]
         """
         raise NotImplementedError

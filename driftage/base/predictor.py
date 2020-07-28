@@ -7,7 +7,7 @@ class Predictor(metaclass=ABCMeta):
     def __init__(self, connection: Connection):
         """Predictor base class for Concept Drift detection.
 
-        :param connection: Knowledge Base connection
+        :param connection: Knowledge Based connection
         :type connection: Connection
         """
         self._connection = connection

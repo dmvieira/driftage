@@ -10,7 +10,7 @@ class RetryConfig:
             max_tries: int = 3,
             all_tries_timeout: Optional[Union[int, float]] = None,
             retry_exceptions: Tuple[Exception] = (Exception,)):
-        """Retry configuration for Sink connection. configuring
+        """Retry configuration for Sink connection. Configuring
         this retry it will be resilient when sending data to Sink.
 
         :param send_timeout: All timeouts when send in seconds,
