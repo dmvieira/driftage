@@ -71,6 +71,7 @@ class MonitorManager():
             monitor.stop()
         print("All monitors stopped!")
 
+
 time.sleep(5)
 
 spark = SparkSession \
