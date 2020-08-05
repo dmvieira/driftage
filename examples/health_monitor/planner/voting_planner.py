@@ -19,12 +19,12 @@ class VotingPredictor(PlannerPredictor):
 
     start_time = datetime.utcnow()
     last_time = datetime.utcnow()
-    voting_low_threashold = 3
-    voting_high_threashold = 8
+    voting_low_threashold = 2
+    voting_high_threashold = 7
 
     @property
     def predict_period(self):
-        return 5
+        return 1
 
     async def predict(self) -> List[PredictResult]:
         now = datetime.utcnow()
