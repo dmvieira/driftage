@@ -73,7 +73,7 @@ planner = Planner(  # nosec
     ["executor@localhost"])
 
 logger.info("Waiting Ejabberd...")
-time.sleep(25)
+time.sleep(40)
 logger.info("Starting planner...")
 planner.start()
 logger.info("Planner alive")
