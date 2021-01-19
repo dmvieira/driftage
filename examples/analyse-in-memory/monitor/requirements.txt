@@ -1,2 +1,2 @@
 driftage>=0.1.1
-psycopg2==2.8.5
+pyspark==3.0.0

@@ -46,8 +46,12 @@ executor = Executor(  # nosec
 logger.info("Waiting Ejabberd...")
 time.sleep(25)
 executor.start()
-while not executor.is_alive():
-    logger.info("Starting executor...")
-    time.sleep(1)
-
 logger.info("Executor alive")
+
+while True:
+    try:
+        time.sleep(1)
+    except KeyboardInterrupt:
+        break
+executor.stop()
+logger.info("Executor stopped")

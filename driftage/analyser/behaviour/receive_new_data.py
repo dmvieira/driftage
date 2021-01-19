@@ -11,7 +11,7 @@ class ReceiveNewData(CyclicBehaviour):
     async def run(self):
         """[summary]
         """
-        msg = await self.receive(timeout=10)
+        msg = await self.receive()
         if msg:
             self.agent.add_behaviour(StoreNewData(), Template(body=msg.body))
             self._logger.debug(f"Message received {msg.body}")

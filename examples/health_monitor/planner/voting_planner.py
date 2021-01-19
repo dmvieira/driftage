@@ -74,15 +74,14 @@ planner = Planner(  # nosec
 
 logger.info("Waiting Ejabberd...")
 time.sleep(25)
-while not planner.is_alive():
-    logger.info("Starting planner...")
-    planner.start()
-    time.sleep(1)
-    condition = [contact.get("presence", False)
-                 for contact in planner.presence.get_contacts().values()]
-    while not all(condition):
-        planner.stop()
-        logger.info("Waiting executors...")
-        time.sleep(1)
-
+logger.info("Starting planner...")
+planner.start()
 logger.info("Planner alive")
+
+while True:
+    try:
+        time.sleep(1)
+    except KeyboardInterrupt:
+        break
+planner.stop()
+logger.info("Planner stopped")

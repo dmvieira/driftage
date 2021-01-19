@@ -16,9 +16,7 @@ class TestReceiveNewData(TestCase):
         message.body = "testing"
         self.behaviour.receive.return_value = message
         await self.behaviour.run()
-        self.behaviour.receive.assert_awaited_once_with(
-            timeout=10
-        )
+        self.behaviour.receive.assert_awaited_once_with()
         self.agent.add_behaviour.assert_called_once_with(
             callback(), template(body="testing"))
 
@@ -26,7 +24,5 @@ class TestReceiveNewData(TestCase):
         message = None
         self.behaviour.receive.return_value = message
         await self.behaviour.run()
-        self.behaviour.receive.assert_awaited_once_with(
-            timeout=10
-        )
+        self.behaviour.receive.assert_awaited_once_with()
         self.agent.add_behaviour.assert_not_called()

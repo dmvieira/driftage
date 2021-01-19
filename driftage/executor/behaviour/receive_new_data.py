@@ -15,7 +15,7 @@ class ReceiveNewData(CyclicBehaviour):
             self.presence.set_available()
         else:
             self.presence.set_unavailable()
-        msg = await self.receive(timeout=10)
+        msg = await self.receive()
         if msg:
             self.agent.add_behaviour(SendNewData(), Template(body=msg.body))
             self._logger.debug(f"Message received {msg.body}")
