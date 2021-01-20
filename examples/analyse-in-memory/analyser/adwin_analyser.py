@@ -1,6 +1,7 @@
 import os
 import time
 import logging
+from typing import IO, Any
 from driftage.analyser import Analyser
 from driftage.analyser.predictor import AnalyserPredictor, PredictionData
 from driftage.db.connection import Connection
@@ -17,6 +18,7 @@ class ADWINPredictor(AnalyserPredictor):
 
     def __init__(self,
                  connection: Connection,
+                 instance_write: IO[Any],
                  drift_rate_up=0.1,
                  drift_rate_down=0.0001):
         self.counter = 0
@@ -25,6 +27,7 @@ class ADWINPredictor(AnalyserPredictor):
         self.drift_rate_down = drift_rate_down
         self.last_rate = {}
         self.detectors = {}
+        self.instance_write = instance_write
         super().__init__(connection)
 
     @property
@@ -32,6 +35,7 @@ class ADWINPredictor(AnalyserPredictor):
         return 0
 
     async def fit(self):
+        time.sleep(0.01)
         for identifier in self.detectors:
             detector = self.detectors[identifier]
             if ((detector.width > 0) and
@@ -62,33 +66,36 @@ class ADWINPredictor(AnalyserPredictor):
         self.detectors[X.identifier] = detector
         detector.add_element(X.data["sensor"])
         change = detector.detected_change()
-        print(f"Time to predict: {time.time()-start}")
+        self.instance_write.write(f"{time.time()-start}\n")
         return change
 
 
-engine = create_engine(os.environ["KB_CONNECTION_STRING"])
+def main(predictor: ADWINPredictor):
+    engine = create_engine(os.environ["KB_CONNECTION_STRING"])
 
-connection = Connection(engine, bulk_size=1000, bulk_time=1)
-predictor = ADWINPredictor(connection)
+    connection = Connection(engine, bulk_size=1000, bulk_time=1)
 
+    name = os.environ["ANALYSER_NAME"]
+    with open(f"/tmp/{name}_results.csv", "w") as f:
+        predictor = predictor(connection, f)
 
-analyser = Analyser(  # nosec
-    "analyser@localhost",
-    os.environ["ANALYSER_PASSWORD"],
-    predictor,
-    connection,
-    ["monitor@localhost"])
+        analyser = Analyser(  # nosec
+            f"{name}@localhost",
+            os.environ["ANALYSER_PASSWORD"],
+            predictor,
+            connection,
+            [f"monitor_{name.split('_')[1]}@localhost"])
 
-logger.info("Waiting Ejabberd...")
-time.sleep(30)
-logger.info("Starting analyser...")
-analyser.start()
-logger.info("Analyser alive")
+        logger.info("Waiting Ejabberd...")
+        time.sleep(30)
+        logger.info("Starting analyser...")
+        analyser.start()
+        logger.info("Analyser alive")
 
-while True:
-    try:
-        time.sleep(1)
-    except KeyboardInterrupt:
-        break
-analyser.stop()
-logger.info("Analyser stopped")
+        while True:
+            try:
+                time.sleep(1)
+            except KeyboardInterrupt:
+                break
+        analyser.stop()
+        logger.info("Analyser stopped")

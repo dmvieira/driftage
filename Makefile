@@ -1,4 +1,4 @@
-.PHONY: setup test integration coverage lint check-sec all-tests doc example
+.PHONY: setup test integration coverage lint check-sec all-tests doc result example
 
 setup:
 	@pip install -e .
@@ -13,6 +13,7 @@ test:
 
 integration:
 	@pytest --ignore="test/unit/"
+	@-docker-compose -f examples/health_monitor/docker-compose.yml down --remove-orphans
 
 coverage:
 	@pytest --cov=driftage
@@ -31,8 +32,12 @@ ejabberd:
 	@-docker rmi -f healthmonitor_ejabberd
 	@docker-compose -f examples/health_monitor/docker-compose.yml up --build -d ejabberd
 
+result:
+	@docker-compose -f examples/analyse-in-memory/docker-compose.yml down --remove-orphans
+	@docker-compose -f examples/analyse-in-memory/docker-compose.yml up --build
+
 example:
 	@mkdir -p examples/health_monitor/build/timescaledb
 	@mkdir -p examples/health_monitor/build/executor
-	@docker-compose -f examples/health_monitor/docker-compose.yml down
+	@docker-compose -f examples/health_monitor/docker-compose.yml down --remove-orphans
 	@docker-compose -f examples/health_monitor/docker-compose.yml up --build

@@ -13,7 +13,6 @@ logger.setLevel(logging.DEBUG)
 
 ROWS = [
     "right_bicep",
-    "right_tricep",
     "left_bicep",
     "left_tricep",
     "right_thigh",
@@ -34,43 +33,49 @@ class MonitorManager():
 
     def open(self, partition_id, epoch_id):
 
-        self.monitor = Monitor("monitor@localhost",  # nosec
-                               os.environ["MONITOR_PASSWORD"], ROWS[0])
-        self.monitor.start()
+        self.monitors = []
+        for key, identifier in enumerate(ROWS[0:2]):
+            monitor = Monitor(f"monitor_{key}@localhost",  # nosec
+                              os.environ["MONITOR_PASSWORD"], identifier)
+            monitor.start()
 
-        while not self.monitor.is_alive():
+            self.monitors.append(monitor)
+        while not all([m.is_alive() for m in self.monitors]):
             time.sleep(1)
-            print("Waiting monitor alive")
-        while not bool(self.monitor.available_contacts):
+            print("Waiting all monitors alive")
+        while not all([bool(m.available_contacts) for m in self.monitors]):
             time.sleep(1)
             print(
-                "Waiting analyser connected "
-                f"{len(self.monitor.available_contacts)}")
-        print("Monitor alive, starting...")
+                "Waiting analysers connected "
+                f"{[len(m.available_contacts) for m in self.monitors]}")
+        print("All monitors alive, starting...")
         return True
 
     def process(self, row):
-        self.monitor(
-            dict(sensor=row[self.monitor._identifier])
-        )
+        for monitor in self.monitors:
+            monitor(
+                dict(sensor=row[monitor._identifier])
+            )
+        time.sleep(0.001)  # simulating milisseconds
 
     def close(self, error):
-        print("Closing monitor...")
+        print("Closing all monitors...")
         if error:
             print(f"Got error {error}")
-        while not all([b.is_done() for b in self.monitor.behaviours]):
-            left = sum([not b.is_done() for b in self.monitor.behaviours])
-            print(f"Waiting monitor stop to send... {left} left")
-            time.sleep(1)
-        self.monitor.stop()
-        print("Monitor stopped!")
+        for monitor in self.monitors:
+            while not all([b.is_done() for b in monitor.behaviours]):
+                left = sum([not b.is_done() for b in monitor.behaviours])
+                print(f"Waiting monitors stop to send... {left} left")
+                time.sleep(1)
+            monitor.stop()
+        print("All monitors stopped!")
 
 
 time.sleep(5)
 
 spark = SparkSession \
     .builder \
-    .appName("ProcessHealthDataSimple") \
+    .appName("ProcessHealthData") \
     .getOrCreate()
 
 lines = spark \
@@ -81,5 +86,4 @@ lines = spark \
 
 query = lines.writeStream.foreach(MonitorManager()).start()
 
-query.awaitTermination(1000)
-print("done")
+query.awaitTermination()

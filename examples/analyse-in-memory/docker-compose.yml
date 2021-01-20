@@ -14,13 +14,31 @@ services:
     depends_on:
       - ejabberd
     network_mode: "host"
-  analyser:
+  analyser_0:
     build: analyser/
-    container_name: "adwin-analyser-driftage"
+    container_name: "adwin-analyser-driftage-0"
     environment:
+      - ANALYSER_NAME=analyser_0
       - ANALYSER_PASSWORD=passw0rd
       - KB_CONNECTION_STRING=sqlite://
     depends_on:
       - ejabberd
       - monitor
     network_mode: "host"
+    entrypoint: ["python", "retrain.py"]
+    volumes:
+      - ./result:/tmp
+  analyser_1:
+    build: analyser/
+    container_name: "adwin-analyser-driftage-1"
+    environment:
+      - ANALYSER_NAME=analyser_1
+      - ANALYSER_PASSWORD=passw0rd
+      - KB_CONNECTION_STRING=sqlite://
+    depends_on:
+      - ejabberd
+      - monitor
+    network_mode: "host"
+    entrypoint: ["python", "no_retrain.py"]
+    volumes:
+      - ./result:/tmp
