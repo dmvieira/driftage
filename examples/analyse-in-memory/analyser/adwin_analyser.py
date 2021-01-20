@@ -76,7 +76,7 @@ def main(predictor: ADWINPredictor):
     connection = Connection(engine, bulk_size=1000, bulk_time=1)
 
     name = os.environ["ANALYSER_NAME"]
-    with open(f"/tmp/{name}_results.csv", "w") as f:
+    with open(f"/tmp/{name}_results.csv", "w") as f:  # nosec
         predictor = predictor(connection, f)
 
         analyser = Analyser(  # nosec
