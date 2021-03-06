@@ -1,6 +1,5 @@
 import asyncio
 import os
-import time
 from datetime import datetime
 from asynctest import TestCase, patch
 from sqlalchemy import create_engine
