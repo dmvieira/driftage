@@ -28,7 +28,7 @@ class ADWINPredictor(AnalyserPredictor):
 
     @property
     def retrain_period(self):
-        return 5
+        return 2
 
     async def fit(self):
         for identifier in self.detectors:
